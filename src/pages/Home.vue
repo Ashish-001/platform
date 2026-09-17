@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import NetworkCanvas from '../components/NetworkCanvas.vue'
 import ServiceCard from '../components/ServiceCard.vue'
 import TestimonialCard from '../components/TestimonialCard.vue'
 import { services } from '../data/services'
@@ -17,6 +18,8 @@ const highlights = projects.slice(0, 3)
     <div
       class="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_0%,rgba(99,102,241,0.18),transparent_70%),radial-gradient(35%_35%_at_88%_18%,rgba(217,70,239,0.12),transparent_70%),radial-gradient(35%_35%_at_12%_22%,rgba(14,165,233,0.12),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent_60%)]"
     ></div>
+    <NetworkCanvas />
+    <div class="texture-noise pointer-events-none absolute inset-0"></div>
     <div class="mx-auto max-w-7xl px-4 py-24 text-center sm:px-6 md:py-32">
       <span
         class="inline-block rounded-full border border-indigo-200 bg-indigo-50 px-4 py-1.5 text-xs font-semibold text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300"
@@ -132,15 +135,16 @@ const highlights = projects.slice(0, 3)
   <!-- Bottom CTA -->
   <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6">
     <div
-      class="rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-8 py-16 text-center text-white"
+      class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-8 py-16 text-center text-white"
     >
-      <h2 class="font-display text-3xl font-bold sm:text-4xl">Ready to start your project?</h2>
-      <p class="mx-auto mt-4 max-w-xl text-indigo-100">
+      <div class="texture-dots pointer-events-none absolute inset-0"></div>
+      <h2 class="relative font-display text-3xl font-bold sm:text-4xl">Ready to start your project?</h2>
+      <p class="relative mx-auto mt-4 max-w-xl text-indigo-100">
         Tell us what you need — we'll reply within 24 hours with a clear plan and honest pricing.
       </p>
       <RouterLink
         to="/contact"
-        class="mt-8 inline-block rounded-lg bg-white px-8 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50"
+        class="relative mt-8 inline-block rounded-lg bg-white px-8 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50"
       >
         Get a Free Quote
       </RouterLink>

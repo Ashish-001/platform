@@ -1,7 +1,7 @@
 export const team = [
   {
-    name: 'Ashish Chauhan',
-    role: 'Founder & Full-Stack Developer',
+    name: 'Team Member 1',
+    role: 'Full-Stack Developer',
     expertise: ['Vue.js', 'React', 'Node.js', 'Firebase'],
     emoji: '🧑‍💻',
   },

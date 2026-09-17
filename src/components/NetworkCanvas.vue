@@ -13,7 +13,7 @@ let height = 0
 let dpr = 1
 const mouse = { x: -9999, y: -9999 }
 const MOUSE_RADIUS = 180
-const LINK_DIST = 130
+const LINK_DIST = 150
 
 let onMove, onLeave, resizeObserver, reducedMotion
 
@@ -22,7 +22,7 @@ function isDark() {
 }
 
 function initParticles() {
-  const count = Math.min(110, Math.floor((width * height) / 8500))
+  const count = Math.min(170, Math.floor((width * height) / 4800))
   particles = Array.from({ length: count }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
 <template>
   <canvas
     ref="canvasRef"
-    class="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_80%_75%_at_50%_0%,black_35%,transparent_85%)]"
+    class="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]"
     aria-hidden="true"
   ></canvas>
 </template>

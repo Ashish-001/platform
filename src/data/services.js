@@ -1,6 +1,7 @@
 export const services = [
   {
     id: 'custom-website-development',
+    category: 'Core Development',
     title: 'Custom Website Development',
     icon: '🌐',
     shortDesc: 'Business sites, landing pages and portfolios built for speed, polish and conversions.',
@@ -12,6 +13,7 @@ export const services = [
   },
   {
     id: 'web-application-development',
+    category: 'Core Development',
     title: 'Web Application Development',
     icon: '🖥️',
     shortDesc: 'Full-stack web apps, dashboards and SaaS products with modern frameworks.',
@@ -23,6 +25,7 @@ export const services = [
   },
   {
     id: 'api-development-integration',
+    category: 'Core Development',
     title: 'API Development & Integration',
     icon: '🔌',
     shortDesc: 'REST & GraphQL APIs, plus integrations with any third-party service.',
@@ -34,6 +37,7 @@ export const services = [
   },
   {
     id: 'ecommerce-development',
+    category: 'Core Development',
     title: 'E-commerce Development',
     icon: '🛒',
     shortDesc: 'Online stores with cart, checkout and payments — Shopify, WooCommerce or custom.',
@@ -45,6 +49,7 @@ export const services = [
   },
   {
     id: 'mobile-app-development',
+    category: 'Core Development',
     title: 'Mobile App Development',
     icon: '📱',
     shortDesc: 'Cross-platform iOS & Android apps from a single codebase.',
@@ -56,6 +61,7 @@ export const services = [
   },
   {
     id: 'backend-development',
+    category: 'Backend & Infrastructure',
     title: 'Backend Development',
     icon: '⚙️',
     shortDesc: 'Servers, databases, auth systems and business logic that scale.',
@@ -67,6 +73,7 @@ export const services = [
   },
   {
     id: 'cloud-deployment-devops',
+    category: 'Backend & Infrastructure',
     title: 'Cloud Deployment & DevOps',
     icon: '☁️',
     shortDesc: 'AWS, GCP and Firebase setup, CI/CD pipelines, Docker and hosting migration.',
@@ -78,6 +85,7 @@ export const services = [
   },
   {
     id: 'database-design-optimization',
+    category: 'Backend & Infrastructure',
     title: 'Database Design & Optimization',
     icon: '🗄️',
     shortDesc: 'Schema design, query tuning and migrations for SQL & NoSQL.',
@@ -89,6 +97,7 @@ export const services = [
   },
   {
     id: 'ai-chatbot-integration',
+    category: 'AI & Automation',
     title: 'AI & Chatbot Integration',
     icon: '🤖',
     shortDesc: 'LLM-powered chatbots and AI features inside your existing product.',
@@ -100,6 +109,7 @@ export const services = [
   },
   {
     id: 'automation-web-scraping',
+    category: 'AI & Automation',
     title: 'Automation & Web Scraping',
     icon: '🕸️',
     shortDesc: 'Workflow automation, data pipelines and scheduled scrapers.',
@@ -111,6 +121,7 @@ export const services = [
   },
   {
     id: 'payment-gateway-integration',
+    category: 'AI & Automation',
     title: 'Payment Gateway Integration',
     icon: '💳',
     shortDesc: 'Stripe, Razorpay and PayPal — one-time payments, subscriptions and invoicing.',
@@ -122,6 +133,7 @@ export const services = [
   },
   {
     id: 'ui-ux-design',
+    category: 'Growth & Maintenance',
     title: 'UI/UX Design',
     icon: '🎨',
     shortDesc: 'Figma designs, design systems and product redesigns.',
@@ -133,6 +145,7 @@ export const services = [
   },
   {
     id: 'seo-performance-optimization',
+    category: 'Growth & Maintenance',
     title: 'SEO & Performance Optimization',
     icon: '🚀',
     shortDesc: 'Core Web Vitals, page speed and technical SEO that move rankings.',
@@ -144,6 +157,7 @@ export const services = [
   },
   {
     id: 'website-maintenance-support',
+    category: 'Growth & Maintenance',
     title: 'Website Maintenance & Support',
     icon: '🛡️',
     shortDesc: 'Bug fixes, security updates and monthly retainers — we keep it running.',
@@ -155,6 +169,7 @@ export const services = [
   },
   {
     id: 'legacy-code-modernization',
+    category: 'Growth & Maintenance',
     title: 'Legacy Code Modernization',
     icon: '🔄',
     shortDesc: 'Migrate old codebases to modern stacks without breaking the business.',
@@ -164,6 +179,13 @@ export const services = [
     priceRange: '$2k – $20k',
     features: ['Stack migration strategy', 'Incremental, low-risk rollout', 'Test coverage added', 'Zero-downtime cutover'],
   },
+]
+
+export const categories = [
+  'Core Development',
+  'Backend & Infrastructure',
+  'AI & Automation',
+  'Growth & Maintenance',
 ]
 
 export const getServiceById = (id) => services.find((s) => s.id === id)

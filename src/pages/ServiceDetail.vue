@@ -22,7 +22,10 @@ const related = computed(() =>
       <!-- Main -->
       <div class="lg:col-span-2">
         <span class="text-5xl">{{ service.icon }}</span>
-        <h1 class="mt-5 font-display text-4xl font-bold text-slate-900 dark:text-white">
+        <p class="mt-4 text-xs font-semibold tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
+          {{ service.category }}
+        </p>
+        <h1 class="mt-2 font-display text-4xl font-bold text-slate-900 dark:text-white">
           {{ service.title }}
         </h1>
         <p class="mt-5 text-lg leading-relaxed text-slate-600 dark:text-slate-300">

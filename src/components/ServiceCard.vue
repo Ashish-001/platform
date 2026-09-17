@@ -9,7 +9,7 @@ defineProps({
 <template>
   <RouterLink
     :to="`/services/${service.id}`"
-    class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-700 dark:hover:shadow-indigo-950"
+    class="group flex flex-col rounded-2xl border border-indigo-100 bg-white p-6 shadow-sm shadow-indigo-100/60 transition hover:-translate-y-1 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-200/70 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none dark:hover:border-indigo-700 dark:hover:shadow-indigo-950"
   >
     <span class="text-3xl">{{ service.icon }}</span>
     <h3 class="mt-4 font-display text-lg font-semibold text-slate-900 dark:text-white">

@@ -15,7 +15,7 @@ const highlights = projects.slice(0, 3)
   <!-- Hero -->
   <section class="relative overflow-hidden">
     <div
-      class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent_60%)]"
+      class="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_0%,rgba(99,102,241,0.18),transparent_70%),radial-gradient(35%_35%_at_88%_18%,rgba(217,70,239,0.12),transparent_70%),radial-gradient(35%_35%_at_12%_22%,rgba(14,165,233,0.12),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent_60%)]"
     ></div>
     <div class="mx-auto max-w-7xl px-4 py-24 text-center sm:px-6 md:py-32">
       <span
@@ -27,7 +27,10 @@ const highlights = projects.slice(0, 3)
         class="mx-auto mt-6 max-w-3xl font-display text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl dark:text-white"
       >
         We build the tech.<br />
-        <span class="text-indigo-600 dark:text-indigo-400">You build the business.</span>
+        <span
+          class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-500 bg-clip-text text-transparent dark:from-indigo-400 dark:via-violet-400 dark:to-fuchsia-400"
+          >You build the business.</span
+        >
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
         Service is a full-stack development agency. Websites, web apps, APIs, e-commerce, AI —
@@ -36,13 +39,13 @@ const highlights = projects.slice(0, 3)
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <RouterLink
           to="/contact"
-          class="rounded-lg bg-indigo-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-500 dark:shadow-indigo-950"
+          class="rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-300/60 transition hover:from-indigo-500 hover:to-violet-500 dark:shadow-indigo-950"
         >
           Get a Free Quote
         </RouterLink>
         <RouterLink
           to="/services"
-          class="rounded-lg border border-slate-300 px-7 py-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-400 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-200"
+          class="rounded-lg border border-indigo-200 bg-white px-7 py-3 text-sm font-semibold text-indigo-700 shadow-sm transition hover:border-indigo-400 hover:bg-indigo-50 dark:border-slate-700 dark:bg-transparent dark:text-slate-200 dark:shadow-none dark:hover:bg-slate-900"
         >
           Explore Services
         </RouterLink>
@@ -51,10 +54,14 @@ const highlights = projects.slice(0, 3)
   </section>
 
   <!-- Stats -->
-  <section class="border-y border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
+  <section
+    class="border-y border-indigo-100 bg-gradient-to-r from-indigo-50/90 via-white to-violet-50/90 dark:border-slate-800 dark:bg-slate-900 dark:bg-none"
+  >
     <div class="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
       <div v-for="stat in stats" :key="stat.label" class="text-center">
-        <p class="font-display text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ stat.value }}</p>
+        <p
+          class="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text font-display text-3xl font-bold text-transparent dark:from-indigo-400 dark:to-violet-400"
+        >{{ stat.value }}</p>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
       </div>
     </div>
@@ -64,7 +71,8 @@ const highlights = projects.slice(0, 3)
   <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6">
     <div class="flex items-end justify-between">
       <div>
-        <h2 class="font-display text-3xl font-bold text-slate-900 dark:text-white">What we do</h2>
+        <p class="text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">Services</p>
+        <h2 class="mt-2 font-display text-3xl font-bold text-slate-900 dark:text-white">What we do</h2>
         <p class="mt-2 text-slate-500 dark:text-slate-400">Six of our most requested services.</p>
       </div>
       <RouterLink to="/services" class="hidden text-sm font-semibold text-indigo-600 sm:block dark:text-indigo-400"
@@ -82,9 +90,12 @@ const highlights = projects.slice(0, 3)
   </section>
 
   <!-- Portfolio highlights -->
-  <section class="border-y border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
+  <section
+    class="border-y border-indigo-100 bg-gradient-to-br from-indigo-50/70 via-white to-fuchsia-50/60 dark:border-slate-800 dark:bg-slate-900 dark:bg-none"
+  >
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-      <h2 class="font-display text-3xl font-bold text-slate-900 dark:text-white">Recent work</h2>
+      <p class="text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">Portfolio</p>
+      <h2 class="mt-2 font-display text-3xl font-bold text-slate-900 dark:text-white">Recent work</h2>
       <p class="mt-2 text-slate-500 dark:text-slate-400">A few projects we're proud of.</p>
       <div class="mt-10 grid gap-6 md:grid-cols-3">
         <div

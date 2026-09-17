@@ -62,7 +62,7 @@ const related = computed(() =>
       <!-- Sidebar -->
       <aside>
         <div
-          class="sticky top-24 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900"
+          class="sticky top-24 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/90 to-violet-50/70 p-6 dark:border-slate-800 dark:bg-slate-900 dark:bg-none"
         >
           <p class="text-sm text-slate-500 dark:text-slate-400">Typical budget</p>
           <p class="mt-1 font-display text-2xl font-bold text-slate-900 dark:text-white">

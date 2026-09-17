@@ -7,13 +7,15 @@ const topServices = services.slice(0, 6)
 </script>
 
 <template>
-  <footer class="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
+  <footer
+    class="border-t border-indigo-100 bg-gradient-to-b from-white to-indigo-50/80 dark:border-slate-800 dark:bg-slate-900 dark:bg-none"
+  >
     <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
       <!-- Brand -->
       <div class="md:col-span-2">
         <div class="flex items-center gap-2">
           <span
-            class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-display text-lg font-bold text-white"
+            class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 font-display text-lg font-bold text-white"
             >S</span
           >
           <span class="font-display text-xl font-bold text-slate-900 dark:text-white">Service</span>

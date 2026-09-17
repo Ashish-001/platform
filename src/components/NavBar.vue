@@ -37,13 +37,13 @@ onMounted(() => {
 
 <template>
   <header
-    class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg dark:border-slate-800 dark:bg-slate-950/80"
+    class="sticky top-0 z-50 border-b border-indigo-100/80 bg-white/75 backdrop-blur-lg dark:border-slate-800 dark:bg-slate-950/80"
   >
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center gap-2" @click="menuOpen = false">
         <span
-          class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-display text-lg font-bold text-white"
+          class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 font-display text-lg font-bold text-white shadow-md shadow-indigo-300/50 dark:shadow-none"
           >S</span
         >
         <span class="font-display text-xl font-bold tracking-tight text-slate-900 dark:text-white"
@@ -76,7 +76,7 @@ onMounted(() => {
 
         <RouterLink
           to="/contact"
-          class="hidden rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 md:block"
+          class="hidden rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-300/50 transition hover:from-indigo-500 hover:to-violet-500 md:block dark:shadow-none"
         >
           Get Quote
         </RouterLink>

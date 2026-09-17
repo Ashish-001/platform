@@ -21,9 +21,11 @@ import { team, stats, process } from '../data/team'
       <div
         v-for="stat in stats"
         :key="stat.label"
-        class="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center dark:border-slate-800 dark:bg-slate-900"
+        class="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/90 to-violet-50/70 p-6 text-center dark:border-slate-800 dark:bg-slate-900 dark:bg-none"
       >
-        <p class="font-display text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ stat.value }}</p>
+        <p
+          class="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text font-display text-3xl font-bold text-transparent dark:from-indigo-400 dark:to-violet-400"
+        >{{ stat.value }}</p>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
       </div>
     </div>

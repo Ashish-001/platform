@@ -93,7 +93,7 @@ const inputClass =
     <button
       type="submit"
       :disabled="status === 'sending'"
-      class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-60"
+      class="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-300/50 transition hover:from-indigo-500 hover:to-violet-500 disabled:opacity-60 dark:shadow-none"
     >
       {{ status === 'sending' ? 'Sending…' : 'Request a Quote' }}
     </button>

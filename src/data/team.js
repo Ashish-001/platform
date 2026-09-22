@@ -32,6 +32,25 @@ export const stats = [
   { value: '100%', label: 'Client satisfaction' },
 ]
 
+export const values = [
+  {
+    title: 'Say the honest thing',
+    desc: 'Including when it costs us the project. Clients stay because our estimates and our warnings both turn out to be accurate.',
+  },
+  {
+    title: 'Ship weekly',
+    desc: 'Work that cannot be demonstrated is not progress. Every week ends with something running.',
+  },
+  {
+    title: 'Own the outcome',
+    desc: 'Not the ticket, not the handoff — the result. If the metric did not move, the job is not finished.',
+  },
+  {
+    title: 'Leave it maintainable',
+    desc: 'Someone else will read this code, possibly on their first week. We build for that reader.',
+  },
+]
+
 export const process = [
   { step: '01', title: 'Discovery', desc: 'We learn your business, goals and constraints before writing a line of code.' },
   { step: '02', title: 'Proposal', desc: 'Clear scope, timeline and fixed pricing — no surprises later.' },

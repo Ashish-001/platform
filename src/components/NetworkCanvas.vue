@@ -21,8 +21,15 @@ function isDark() {
   return document.documentElement.classList.contains('dark')
 }
 
+// Linking every pair each frame is O(n²), so the budget stays modest on small
+// screens — where the canvas is mostly masked behind hero text anyway.
+function particleBudget() {
+  if (width < 768) return 0
+  return width < 1280 ? 90 : 150
+}
+
 function initParticles() {
-  const count = Math.min(170, Math.floor((width * height) / 4800))
+  const count = Math.min(particleBudget(), Math.floor((width * height) / 5200))
   particles = Array.from({ length: count }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
@@ -34,6 +41,8 @@ function initParticles() {
 
 function draw() {
   ctx.clearRect(0, 0, width, height)
+  if (!particles.length) return
+
   const dark = isDark()
   const node = dark ? '129,140,248' : '79,70,229'
   const link = dark ? '129,140,248' : '99,102,241'
@@ -110,7 +119,10 @@ function resize() {
   canvas.style.height = `${height}px`
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
   initParticles()
-  if (reducedMotion) draw()
+
+  cancelAnimationFrame(raf)
+  if (reducedMotion || !particles.length) draw()
+  else raf = requestAnimationFrame(draw)
 }
 
 onMounted(() => {
@@ -122,20 +134,21 @@ onMounted(() => {
   resizeObserver = new ResizeObserver(resize)
   resizeObserver.observe(canvas.parentElement)
 
-  // The canvas is pointer-events-none, so track the mouse on the window
-  onMove = (e) => {
-    const rect = canvas.getBoundingClientRect()
-    mouse.x = e.clientX - rect.left
-    mouse.y = e.clientY - rect.top
+  // Cursor interaction is pointless on touch devices, and the listener costs work.
+  if (window.matchMedia('(pointer: fine)').matches) {
+    // The canvas is pointer-events-none, so track the mouse on the window
+    onMove = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mouse.x = e.clientX - rect.left
+      mouse.y = e.clientY - rect.top
+    }
+    onLeave = () => {
+      mouse.x = -9999
+      mouse.y = -9999
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    window.addEventListener('mouseout', onLeave)
   }
-  onLeave = () => {
-    mouse.x = -9999
-    mouse.y = -9999
-  }
-  window.addEventListener('mousemove', onMove, { passive: true })
-  window.addEventListener('mouseout', onLeave)
-
-  if (!reducedMotion) raf = requestAnimationFrame(draw)
 })
 
 onBeforeUnmount(() => {

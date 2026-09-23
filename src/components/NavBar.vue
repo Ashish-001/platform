@@ -7,6 +7,7 @@ import { industries } from '../data/industries'
 import { caseStudies } from '../data/caseStudies'
 import { reportCard } from '../data/reports'
 import { useUi } from '../composables/useUi'
+import { setBodyScrollLock } from '../composables/useScrollLock'
 
 const { openLead } = useUi()
 const route = useRoute()
@@ -168,6 +169,11 @@ function promoClick(promo) {
   openLead({ title: promo.action, subtitle: promo.text })
 }
 
+function openLeadFromMobile() {
+  closeAll()
+  openLead()
+}
+
 function applyTheme() {
   document.documentElement.classList.toggle('dark', isDark.value)
   try {
@@ -193,9 +199,12 @@ watch(
   () => closeAll(),
 )
 
-watch(mobileOpen, (v) => {
-  document.body.style.overflow = v ? 'hidden' : ''
-})
+watch(mobileOpen, (v) => setBodyScrollLock('mobile-nav', v))
+
+// The drawer is hidden from xl up; close it so its scroll lock is released too.
+function onResize() {
+  if (mobileOpen.value && window.innerWidth >= 1280) mobileOpen.value = false
+}
 
 onMounted(() => {
   let saved = null
@@ -207,12 +216,14 @@ onMounted(() => {
   onScroll()
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('keydown', onKeydown)
+  window.addEventListener('resize', onResize)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll)
   window.removeEventListener('keydown', onKeydown)
-  document.body.style.overflow = ''
+  window.removeEventListener('resize', onResize)
+  setBodyScrollLock('mobile-nav', false)
   clearTimeout(closeTimer)
 })
 </script>
@@ -391,18 +402,42 @@ onBeforeUnmount(() => {
       </div>
     </Transition>
 
-    <!-- Mobile drawer -->
-    <Transition
-      enter-active-class="transition duration-200 ease-out"
-      enter-from-class="opacity-0"
-      leave-active-class="transition duration-150 ease-in"
-      leave-to-class="opacity-0"
-    >
-      <div
-        v-if="mobileOpen"
-        class="fixed inset-x-0 top-[65px] bottom-0 overflow-y-auto border-t border-slate-200 bg-white xl:hidden dark:border-slate-800 dark:bg-slate-950"
+    <!-- Mobile drawer.
+         Teleported out of <header>: its backdrop-filter would otherwise act as the
+         containing block for this fixed panel and collapse it to the header's height. -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-to-class="opacity-0"
       >
-        <div class="shell space-y-1 py-5">
+        <div
+          v-if="mobileOpen"
+          class="fixed inset-0 z-[80] flex flex-col bg-white xl:hidden dark:bg-slate-950"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+        >
+          <div
+            class="flex shrink-0 items-center justify-between border-b border-slate-200/80 px-5 py-3.5 dark:border-slate-800"
+          >
+            <RouterLink to="/" @click="closeAll">
+              <BrandMark />
+            </RouterLink>
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300"
+              aria-label="Close menu"
+              @click="closeAll"
+            >
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex-1 overflow-y-auto overscroll-contain px-5 py-5">
           <div v-for="menu in menus" :key="menu.key" class="border-b border-slate-100 pb-1 dark:border-slate-900">
             <button
               type="button"
@@ -457,26 +492,27 @@ onBeforeUnmount(() => {
             </div>
           </div>
 
-          <RouterLink
-            v-for="link in plainLinks"
-            :key="link.to"
-            :to="link.to"
-            class="block border-b border-slate-100 py-3 text-sm font-semibold text-slate-900 dark:border-slate-900 dark:text-white"
-            @click="closeAll"
-          >
-            {{ link.label }}
-          </RouterLink>
+            <RouterLink
+              v-for="link in plainLinks"
+              :key="link.to"
+              :to="link.to"
+              class="block border-b border-slate-100 py-3 text-sm font-semibold text-slate-900 dark:border-slate-900 dark:text-white"
+              @click="closeAll"
+            >
+              {{ link.label }}
+            </RouterLink>
+          </div>
 
-          <div class="flex flex-col gap-3 pt-5">
-            <button type="button" class="btn-primary w-full" @click="(closeAll(), openLead())">
-              Request a Call
-            </button>
+          <div
+            class="shrink-0 space-y-3 border-t border-slate-200/80 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] dark:border-slate-800"
+          >
+            <button type="button" class="btn-primary w-full" @click="openLeadFromMobile">Request a Call</button>
             <RouterLink to="/tools/project-estimator" class="btn-outline w-full" @click="closeAll">
               Estimate my project
             </RouterLink>
           </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </header>
 </template>

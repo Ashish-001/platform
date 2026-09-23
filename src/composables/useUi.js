@@ -1,4 +1,5 @@
 import { readonly, ref, watch } from 'vue'
+import { setBodyScrollLock } from './useScrollLock'
 
 const defaultLead = {
   title: 'Request a call back',
@@ -10,15 +11,7 @@ const defaultLead = {
 const leadOpen = ref(false)
 const leadContext = ref({ ...defaultLead })
 
-let lockCount = 0
-
-function lockScroll(locked) {
-  if (typeof document === 'undefined') return
-  lockCount = Math.max(0, lockCount + (locked ? 1 : -1))
-  document.body.style.overflow = lockCount > 0 ? 'hidden' : ''
-}
-
-watch(leadOpen, (v) => lockScroll(v))
+watch(leadOpen, (v) => setBodyScrollLock('lead-modal', v))
 
 export function useUi() {
   return {

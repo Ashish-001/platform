@@ -64,7 +64,9 @@ export function saveDraft() {
 export function discardDraft() {
   try {
     localStorage.removeItem(DRAFT_KEY)
-  } catch {}
+  } catch {
+    // Ignore storage errors; draft metadata is still reset in memory.
+  }
   contentMeta.hasDraft = false
   contentMeta.savedAt = null
 }
@@ -102,7 +104,9 @@ export async function hydrateContent() {
         contentMeta.hasDraft = true
       }
     }
-  } catch {}
+  } catch {
+    // Ignore invalid/blocked local draft storage and continue with current content.
+  }
 }
 
 /* ---------- Blog posts ---------- */

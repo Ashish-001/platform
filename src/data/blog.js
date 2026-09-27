@@ -1,6 +1,10 @@
+import { computed, reactive } from 'vue'
+
 export const blogCategories = ['Engineering', 'AI & Automation', 'Performance', 'E-commerce', 'Product']
 
-export const posts = [
+// Content shipped with the repo. The admin panel edits a reactive copy of this,
+// so `seedPosts` stays available as the "reset to repo content" baseline.
+const seedPosts = [
   {
     slug: 'rag-assistants-that-dont-hallucinate',
     title: 'Building a Support Assistant That Refuses to Guess',
@@ -149,7 +153,11 @@ export const posts = [
   },
 ]
 
-export const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date))
+export const posts = reactive(structuredClone(seedPosts))
+
+export const postSeed = () => structuredClone(seedPosts)
+
+export const sortedPosts = computed(() => [...posts].sort((a, b) => b.date.localeCompare(a.date)))
 
 export const getPostBySlug = (slug) => posts.find((p) => p.slug === slug)
 

@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import NetworkCanvas from '../components/NetworkCanvas.vue'
 import Reveal from '../components/Reveal.vue'
@@ -19,8 +20,8 @@ import { useUi } from '../composables/useUi'
 
 const { openLead } = useUi()
 
-const heroChips = services.filter((s) => s.featured).slice(0, 6)
-const latestPosts = sortedPosts.slice(0, 3)
+const heroChips = computed(() => services.filter((s) => s.featured).slice(0, 6))
+const latestPosts = computed(() => sortedPosts.value.slice(0, 3))
 const featuredReports = benchmarkReports.slice(0, 3)
 const homeFaqs = faqGroups.slice(0, 5)
 

@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import BrandMark from './BrandMark.vue'
 import { serviceCategories, servicesInCategory } from '../data/services'
@@ -12,7 +12,7 @@ import { setBodyScrollLock } from '../composables/useScrollLock'
 const { openLead } = useUi()
 const route = useRoute()
 
-const menus = [
+const menus = computed(() => [
   {
     key: 'company',
     label: 'Company',
@@ -130,7 +130,7 @@ const menus = [
       action: 'Download Report Card',
     },
   },
-]
+])
 
 const plainLinks = [
   { to: '/blog', label: 'Blog' },

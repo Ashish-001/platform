@@ -1,0 +1,13 @@
+{
+  "adminPath": "/my/admin",
+  "username": "admin",
+  "password": "admin1234567890",
+  "sessionHours": 12,
+  "publishedContentFile": "content.json",
+  "_readme": [
+    "This file is bundled into the public JavaScript, so anyone who opens devtools can read these credentials.",
+    "Treat it as a lock on a screen door: it keeps the panel out of sight, not out of reach.",
+    "For real protection put /my/admin behind Cloudflare Access, Netlify Identity or a small auth backend.",
+    "Change the username and password before deploying, and never reuse a password you use elsewhere."
+  ]
+}

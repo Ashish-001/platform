@@ -1,3 +1,5 @@
+import { reactive } from 'vue'
+
 export const serviceCategories = [
   {
     slug: 'core-development',
@@ -61,7 +63,9 @@ export const serviceCategories = [
   },
 ]
 
-export const services = [
+// Content shipped with the repo. The admin panel edits a reactive copy of this,
+// so `seedServices` stays available as the "reset to repo content" baseline.
+const seedServices = [
   {
     id: 'custom-website-development',
     category: 'Core Development',
@@ -280,6 +284,10 @@ export const services = [
     features: ['Stack migration strategy', 'Incremental, low-risk rollout', 'Test coverage added', 'Zero-downtime cutover'],
   },
 ]
+
+export const services = reactive(structuredClone(seedServices))
+
+export const serviceSeed = () => structuredClone(seedServices)
 
 export const categories = serviceCategories.map((c) => c.name)
 

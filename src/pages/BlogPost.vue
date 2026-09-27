@@ -12,8 +12,12 @@ const { openLead } = useUi()
 const post = computed(() => getPostBySlug(route.params.slug))
 const related = computed(() => {
   if (!post.value) return []
-  const sameCategory = sortedPosts.filter((p) => p.slug !== post.value.slug && p.category === post.value.category)
-  const others = sortedPosts.filter((p) => p.slug !== post.value.slug && p.category !== post.value.category)
+  const sameCategory = sortedPosts.value.filter(
+    (p) => p.slug !== post.value.slug && p.category === post.value.category,
+  )
+  const others = sortedPosts.value.filter(
+    (p) => p.slug !== post.value.slug && p.category !== post.value.category,
+  )
   return [...sameCategory, ...others].slice(0, 3)
 })
 </script>

@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import PageHero from '../components/PageHero.vue'
 import { serviceCategories, services } from '../data/services'
@@ -6,7 +7,7 @@ import { industries } from '../data/industries'
 import { caseStudies } from '../data/caseStudies'
 import { sortedPosts } from '../data/blog'
 
-const groups = [
+const groups = computed(() => [
   {
     title: 'Main',
     links: [
@@ -47,7 +48,7 @@ const groups = [
   },
   {
     title: 'Blog posts',
-    links: sortedPosts.map((p) => ({ to: `/blog/${p.slug}`, label: p.title })),
+    links: sortedPosts.value.map((p) => ({ to: `/blog/${p.slug}`, label: p.title })),
   },
   {
     title: 'Company',
@@ -59,7 +60,7 @@ const groups = [
       { to: '/privacy', label: 'Privacy policy' },
     ],
   },
-]
+])
 </script>
 
 <template>

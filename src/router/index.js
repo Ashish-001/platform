@@ -1,6 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import adminConfig from '../data/adminConfig.json'
 
 const routes = [
+  // Unlisted on purpose: no nav entry, no sitemap entry, noindex on the page.
+  {
+    path: adminConfig.adminPath || '/my/admin',
+    name: 'admin',
+    component: () => import('../pages/Admin.vue'),
+    meta: { bare: true },
+  },
+
   { path: '/', name: 'home', component: () => import('../pages/Home.vue') },
 
   // Services

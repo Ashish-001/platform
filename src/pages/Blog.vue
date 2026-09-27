@@ -9,7 +9,7 @@ const active = ref('All')
 const categories = ['All', ...blogCategories]
 
 const filtered = computed(() =>
-  active.value === 'All' ? sortedPosts : sortedPosts.filter((p) => p.category === active.value),
+  active.value === 'All' ? sortedPosts.value : sortedPosts.value.filter((p) => p.category === active.value),
 )
 
 const featured = computed(() => filtered.value[0])

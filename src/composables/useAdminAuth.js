@@ -46,7 +46,9 @@ export function useAdminAuth() {
           SESSION_KEY,
           JSON.stringify({ user: username, expiresAt: Date.now() + hours * 60 * 60 * 1000 }),
         )
-      } catch {}
+      } catch {
+        // Ignore sessionStorage failures (private mode/quota); keep auth in memory.
+      }
       authed.value = true
       return true
     },
@@ -54,7 +56,9 @@ export function useAdminAuth() {
     signOut() {
       try {
         sessionStorage.removeItem(SESSION_KEY)
-      } catch {}
+      } catch {
+        // Ignore sessionStorage failures; local auth state is still cleared.
+      }
       authed.value = false
     },
   }

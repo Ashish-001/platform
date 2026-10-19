@@ -1,6 +1,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { contact } from '../data/company'
+import { t } from '../i18n'
 
 const showTop = ref(false)
 const expanded = ref(false)
@@ -51,7 +52,7 @@ const actions = [
         v-if="showTop"
         type="button"
         class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg shadow-slate-900/5 transition hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
-        aria-label="Back to top"
+        :aria-label="t('Back to top')"
         @click="scrollToTop"
       >
         <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -80,7 +81,7 @@ const actions = [
               <path stroke-linecap="round" stroke-linejoin="round" :d="a.path" />
             </svg>
           </span>
-          {{ a.label }}
+          {{ t(a.label) }}
         </a>
       </div>
     </Transition>
@@ -89,7 +90,7 @@ const actions = [
       type="button"
       class="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl shadow-indigo-600/30 transition hover:bg-indigo-700"
       :aria-expanded="expanded"
-      aria-label="Contact options"
+      :aria-label="t('Contact options')"
       @click="expanded = !expanded"
     >
       <svg v-if="!expanded" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">

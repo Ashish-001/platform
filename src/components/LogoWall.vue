@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { clients } from '../data/company'
+import { t } from '../i18n'
 
 const props = defineProps({
   marquee: { type: Boolean, default: false },
@@ -37,10 +38,8 @@ const loop = computed(() => (props.marquee ? [...clients, ...clients] : clients)
           >{{ initials(client.name) }}</span
         >
         <span class="min-w-0">
-          <span class="block truncate text-[13.5px] font-semibold text-slate-800 dark:text-white">{{
-            client.name
-          }}</span>
-          <span class="block truncate text-[11.5px] text-slate-400">{{ client.sector }}</span>
+          <span class="block truncate text-[13.5px] font-semibold text-slate-800 dark:text-white">{{ t(client.name) }}</span>
+          <span class="block truncate text-[11.5px] text-slate-400">{{ t(client.sector) }}</span>
         </span>
       </div>
     </div>
@@ -57,10 +56,8 @@ const loop = computed(() => (props.marquee ? [...clients, ...clients] : clients)
         >{{ initials(client.name) }}</span
       >
       <span class="min-w-0">
-        <span class="block truncate text-[13.5px] font-semibold text-slate-800 dark:text-white">{{
-          client.name
-        }}</span>
-        <span class="block truncate text-[11.5px] text-slate-400">{{ client.sector }}</span>
+        <span class="block truncate text-[13.5px] font-semibold text-slate-800 dark:text-white">{{ t(client.name) }}</span>
+        <span class="block truncate text-[11.5px] text-slate-400">{{ t(client.sector) }}</span>
       </span>
     </div>
   </div>

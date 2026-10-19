@@ -3,19 +3,25 @@ import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import PageHero from '../components/PageHero.vue'
 import NotFound from './NotFound.vue'
-import { formatDate, getPostBySlug, sortedPosts } from '../data/blog'
+import { formatDate, getPostBySlug, localizedPosts, postLanguages } from '../data/blog'
+import { currentLang } from '../data/languages'
 import { useUi } from '../composables/useUi'
+import { t } from '../i18n'
 
 const route = useRoute()
 const { openLead } = useUi()
 
-const post = computed(() => getPostBySlug(route.params.slug))
+// A post only exists under the languages it is tagged with.
+const post = computed(() => {
+  const found = getPostBySlug(route.params.slug)
+  return found && postLanguages(found).includes(currentLang.value) ? found : null
+})
 const related = computed(() => {
   if (!post.value) return []
-  const sameCategory = sortedPosts.value.filter(
+  const sameCategory = localizedPosts.value.filter(
     (p) => p.slug !== post.value.slug && p.category === post.value.category,
   )
-  const others = sortedPosts.value.filter(
+  const others = localizedPosts.value.filter(
     (p) => p.slug !== post.value.slug && p.category !== post.value.category,
   )
   return [...sameCategory, ...others].slice(0, 3)
@@ -27,7 +33,7 @@ const related = computed(() => {
 
   <template v-else>
     <PageHero
-      :eyebrow="`${post.category} · ${post.readTime} read`"
+      :eyebrow="`${t(post.category)} · ${t('{time} read', { time: t(post.readTime) })}`"
       :title="post.title"
       :lead="post.excerpt"
       :crumbs="[{ to: '/blog', label: 'Blog' }, { label: post.category }]"
@@ -35,40 +41,40 @@ const related = computed(() => {
 
     <article class="shell section grid gap-12 lg:grid-cols-[1.5fr_1fr]">
       <div class="prose-body max-w-2xl">
-        <p class="text-[12px] text-slate-400">Published {{ formatDate(post.date) }}</p>
+        <p class="text-[12px] text-slate-400">{{ t('Published {date}', { date: formatDate(post.date) }) }}</p>
         <template v-for="(block, i) in post.body" :key="i">
-          <h3 v-if="block.type === 'h3'">{{ block.text }}</h3>
+          <h3 v-if="block.type === 'h3'">{{ t(block.text) }}</h3>
           <ul v-else-if="block.type === 'ul'">
-            <li v-for="item in block.items" :key="item">{{ item }}</li>
+            <li v-for="item in block.items" :key="item">{{ t(item) }}</li>
           </ul>
-          <p v-else>{{ block.text }}</p>
+          <p v-else>{{ t(block.text) }}</p>
         </template>
       </div>
 
       <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
         <div class="card p-7">
-          <h2 class="h3 text-lg">Working on something similar?</h2>
+          <h2 class="h3 text-lg">{{ t('Working on something similar?') }}</h2>
           <p class="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
-            Thirty minutes with the engineer who wrote this, not a salesperson.
+            {{ t('Thirty minutes with the engineer who wrote this, not a salesperson.') }}
           </p>
           <button
             type="button"
             class="btn-primary btn-sm mt-5 w-full"
             @click="openLead({ title: 'Talk to an engineer', subtitle: post.title })"
           >
-            Talk to an Engineer
+            {{ t('Talk to an Engineer') }}
           </button>
         </div>
 
         <div v-if="related.length" class="card p-7">
-          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Read next</p>
+          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Read next') }}</p>
           <ul class="mt-4 space-y-4">
             <li v-for="item in related" :key="item.slug">
               <RouterLink :to="`/blog/${item.slug}`" class="group block">
-                <span class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">{{ item.category }}</span>
+                <span class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">{{ t(item.category) }}</span>
                 <span
                   class="mt-1 block text-[13.5px] leading-snug font-medium text-slate-700 group-hover:text-indigo-600 dark:text-slate-200"
-                  >{{ item.title }}</span
+                  >{{ t(item.title) }}</span
                 >
               </RouterLink>
             </li>

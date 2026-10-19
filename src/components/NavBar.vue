@@ -1,141 +1,153 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import BrandMark from './BrandMark.vue'
 import { serviceCategories, servicesInCategory } from '../data/services'
+import { getPostBySlug, postLanguages } from '../data/blog'
+import { currentLang, languages } from '../data/languages'
+import { switchLanguagePath } from '../router'
 import { industries } from '../data/industries'
 import { caseStudies } from '../data/caseStudies'
 import { reportCard } from '../data/reports'
 import { useUi } from '../composables/useUi'
 import { setBodyScrollLock } from '../composables/useScrollLock'
+import { t } from '../i18n'
 
 const { openLead } = useUi()
 const route = useRoute()
+const router = useRouter()
+
+/** Same page in another language; a post missing in that language falls back to its blog. */
+function changeLanguage(code) {
+  const post = route.name === 'blog-post' ? getPostBySlug(route.params.slug) : null
+  const path = post && !postLanguages(post).includes(code) ? `/${code}/blog` : switchLanguagePath(route.path, code)
+  router.push({ path, hash: route.hash })
+}
 
 const menus = computed(() => [
   {
     key: 'company',
-    label: 'Company',
+    label: t('Company'),
     grid: 'lg:grid-cols-[repeat(2,minmax(0,1fr))_300px]',
     columns: [
       {
-        title: 'Who we are',
+        title: t('Who we are'),
         items: [
-          { to: '/about', label: 'About Us', hint: 'Team, values and how we work' },
-          { to: '/about#process', label: 'Our Process', hint: 'Five stages from discovery to support' },
-          { to: '/about#team', label: 'The Team', hint: 'Senior engineers and designers' },
+          { to: '/about', label: t('About Us'), hint: t('Team, values and how we work') },
+          { to: '/about#process', label: t('Our Process'), hint: t('Five stages from discovery to support') },
+          { to: '/about#team', label: t('The Team'), hint: t('Senior engineers and designers') },
         ],
       },
       {
-        title: 'Inside Service',
+        title: t('Inside Service'),
         items: [
-          { to: '/careers', label: 'Careers', hint: 'Open roles and how we hire' },
-          { to: '/awards', label: 'Awards & Recognition', hint: 'Industry honours since 2024' },
-          { to: '/press', label: 'Press Releases', hint: 'Announcements and coverage' },
+          { to: '/careers', label: t('Careers'), hint: t('Open roles and how we hire') },
+          { to: '/awards', label: t('Awards & Recognition'), hint: t('Industry honours since 2024') },
+          { to: '/press', label: t('Press Releases'), hint: t('Announcements and coverage') },
         ],
       },
     ],
     promo: {
-      eyebrow: 'FY 2025–26 Report Card',
+      eyebrow: t('FY 2025–26 Report Card'),
       value: reportCard.stats[1].value,
-      text: 'Milestones hit on or before the agreed date, across 38 projects.',
-      action: 'Download Report Card',
+      text: t('Milestones hit on or before the agreed date, across 38 projects.'),
+      action: t('Download Report Card'),
     },
   },
   {
     key: 'services',
-    label: 'Our Services',
+    label: t('Our Services'),
     grid: 'lg:grid-cols-[repeat(4,minmax(0,1fr))_300px]',
     columns: serviceCategories.map((cat) => ({
-      title: cat.name,
+      title: t(cat.name),
       titleTo: `/services/category/${cat.slug}`,
       icon: cat.icon,
-      items: servicesInCategory(cat.slug).map((s) => ({ to: `/services/${s.id}`, label: s.title })),
+      items: servicesInCategory(cat.slug).map((s) => ({ to: `/services/${s.id}`, label: t(s.title) })),
     })),
     promo: {
-      eyebrow: 'FY 2025–26 Report Card',
+      eyebrow: t('FY 2025–26 Report Card'),
       value: reportCard.stats[2].value,
-      text: 'Median Lighthouse performance score at handover.',
-      action: 'Download Report Card',
+      text: t('Median Lighthouse performance score at handover.'),
+      action: t('Download Report Card'),
     },
   },
   {
     key: 'work',
-    label: 'Our Work',
+    label: t('Our Work'),
     grid: 'lg:grid-cols-[repeat(2,minmax(0,1fr))_300px]',
     columns: [
       {
-        title: 'Proof',
+        title: t('Proof'),
         items: [
-          { to: '/portfolio', label: 'Portfolio', hint: 'Everything we have shipped' },
-          { to: '/case-studies', label: 'Case Studies', hint: 'Full write-ups with numbers' },
-          { to: '/testimonials', label: 'Testimonials', hint: 'What clients say, unedited' },
+          { to: '/portfolio', label: t('Portfolio'), hint: t('Everything we have shipped') },
+          { to: '/case-studies', label: t('Case Studies'), hint: t('Full write-ups with numbers') },
+          { to: '/testimonials', label: t('Testimonials'), hint: t('What clients say, unedited') },
         ],
       },
       {
-        title: 'Featured case studies',
+        title: t('Featured case studies'),
         items: caseStudies.slice(0, 3).map((c) => ({
           to: `/case-studies/${c.slug}`,
           label: c.client,
-          hint: c.headline,
+          hint: t(c.headline),
         })),
       },
     ],
     promo: {
-      eyebrow: 'Free of charge',
-      value: '30 min',
-      text: 'A code and performance audit of your current site.',
-      action: 'Get a Free Audit',
+      eyebrow: t('Free of charge'),
+      value: t('30 min'),
+      text: t('A code and performance audit of your current site.'),
+      action: t('Get a Free Audit'),
     },
   },
   {
     key: 'industries',
-    label: 'Industries',
+    label: t('Industries'),
     grid: 'lg:grid-cols-[repeat(2,minmax(0,1fr))_300px]',
     columns: [
-      { title: 'Industries we build for', items: industries.slice(0, 3).map((i) => ({ to: `/industries/${i.slug}`, label: i.name, hint: i.tagline })) },
-      { title: '', items: industries.slice(3).map((i) => ({ to: `/industries/${i.slug}`, label: i.name, hint: i.tagline })), extra: { to: '/industries', label: 'All industries' } },
+      { title: t('Industries we build for'), items: industries.slice(0, 3).map((i) => ({ to: `/industries/${i.slug}`, label: t(i.name), hint: t(i.tagline) })) },
+      { title: '', items: industries.slice(3).map((i) => ({ to: `/industries/${i.slug}`, label: t(i.name), hint: t(i.tagline) })), extra: { to: '/industries', label: t('All industries') } },
     ],
     promo: {
-      eyebrow: 'Benchmark reports',
+      eyebrow: t('Benchmark reports'),
       value: '7',
-      text: 'Sector benchmarks built from our own delivery data.',
-      action: 'Download a Report',
+      text: t('Sector benchmarks built from our own delivery data.'),
+      action: t('Download a Report'),
     },
   },
   {
     key: 'insights',
-    label: 'Insights',
+    label: t('Insights'),
     grid: 'lg:grid-cols-[repeat(2,minmax(0,1fr))_300px]',
     columns: [
       {
-        title: 'Published data',
+        title: t('Published data'),
         items: [
-          { to: '/insights/report-card', label: 'Engineering Report Card', hint: 'Our delivery metrics, published' },
-          { to: '/insights/reports', label: 'Benchmark Reports', hint: 'Cost, performance and adoption data' },
+          { to: '/insights/report-card', label: t('Engineering Report Card'), hint: t('Our delivery metrics, published') },
+          { to: '/insights/reports', label: t('Benchmark Reports'), hint: t('Cost, performance and adoption data') },
         ],
       },
       {
-        title: 'Free tools',
+        title: t('Free tools'),
         items: [
-          { to: '/tools/project-estimator', label: 'Project Cost Estimator', hint: 'Instant ballpark in two minutes' },
-          { to: '/faqs', label: 'FAQs', hint: '40+ answers on scope and pricing' },
+          { to: '/tools/project-estimator', label: t('Project Cost Estimator'), hint: t('Instant ballpark in two minutes') },
+          { to: '/faqs', label: t('FAQs'), hint: t('40+ answers on scope and pricing') },
         ],
       },
     ],
     promo: {
-      eyebrow: 'FY 2025–26 Report Card',
+      eyebrow: t('FY 2025–26 Report Card'),
       value: reportCard.stats[0].value,
-      text: 'Projects delivered across 24 clients this year.',
-      action: 'Download Report Card',
+      text: t('Projects delivered across 24 clients this year.'),
+      action: t('Download Report Card'),
     },
   },
 ])
 
-const plainLinks = [
-  { to: '/blog', label: 'Blog' },
-  { to: '/contact', label: 'Contact' },
-]
+const plainLinks = computed(() => [
+  { to: '/blog', label: t('Blog') },
+  { to: '/contact', label: t('Contact') },
+])
 
 const open = ref(null)
 const mobileOpen = ref(false)
@@ -238,7 +250,7 @@ onBeforeUnmount(() => {
     "
     @mouseleave="scheduleClose"
   >
-    <nav class="shell flex items-center justify-between gap-6 py-3.5" aria-label="Primary">
+    <nav class="shell flex items-center justify-between gap-6 py-3.5" :aria-label="t('Primary')">
       <RouterLink to="/" class="shrink-0" @click="closeAll">
         <BrandMark />
       </RouterLink>
@@ -258,7 +270,7 @@ onBeforeUnmount(() => {
             aria-haspopup="true"
             @click="toggleMenu(menu.key)"
           >
-            {{ menu.label }}
+            {{ t(menu.label) }}
             <svg
               class="h-3 w-3 transition-transform"
               :class="open === menu.key && 'rotate-180'"
@@ -280,15 +292,24 @@ onBeforeUnmount(() => {
           active-class="!text-indigo-600 dark:!text-indigo-400"
           @mouseenter="scheduleClose"
         >
-          {{ link.label }}
+          {{ t(link.label) }}
         </RouterLink>
       </div>
 
       <div class="flex shrink-0 items-center gap-2">
+        <select
+          v-if="languages.length > 1"
+          :value="currentLang"
+          :aria-label="t('Language')"
+          class="h-9 cursor-pointer rounded-lg border border-slate-200 bg-transparent px-2 text-[12.5px] font-semibold text-slate-600 uppercase transition hover:border-indigo-300 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300"
+          @change="changeLanguage($event.target.value)"
+        >
+          <option v-for="lang in languages" :key="lang.code" :value="lang.code">{{ t(lang.code) }}</option>
+        </select>
         <button
           type="button"
           class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-indigo-300 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-400"
-          :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+          :aria-label="isDark ? t('Switch to light mode') : t('Switch to dark mode')"
           @click="toggleTheme"
         >
           <svg v-if="isDark" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -304,14 +325,14 @@ onBeforeUnmount(() => {
         </button>
 
         <button type="button" class="btn-primary btn-sm hidden md:inline-flex" @click="openLead()">
-          Request a Call
+          {{ t('Request a Call') }}
         </button>
 
         <button
           type="button"
           class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 xl:hidden dark:border-slate-700 dark:text-slate-300"
           :aria-expanded="mobileOpen"
-          aria-label="Toggle menu"
+          :aria-label="t('Toggle menu')"
           @click="mobileOpen = !mobileOpen"
         >
           <svg v-if="!mobileOpen" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -344,9 +365,9 @@ onBeforeUnmount(() => {
                 :to="col.titleTo"
                 class="group flex items-start gap-2 text-[13px] font-semibold text-slate-900 dark:text-white"
               >
-                <span aria-hidden="true">{{ col.icon }}</span>
+                <span aria-hidden="true">{{ t(col.icon) }}</span>
                 <span class="group-hover:text-indigo-600 dark:group-hover:text-indigo-400"
-                  >{{ col.title }}
+                  >{{ t(col.title) }}
                   <span class="text-indigo-500 opacity-0 transition group-hover:opacity-100">→</span></span
                 >
               </RouterLink>
@@ -354,7 +375,7 @@ onBeforeUnmount(() => {
                 v-else-if="col.title"
                 class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase"
               >
-                {{ col.title }}
+                {{ t(col.title) }}
               </p>
               <span v-else class="block h-4" />
 
@@ -365,15 +386,13 @@ onBeforeUnmount(() => {
                     class="block rounded-lg px-2 py-1.5 transition hover:bg-indigo-50/70 dark:hover:bg-slate-900"
                     @click="closeAll"
                   >
-                    <span class="block text-[13.5px] font-medium text-slate-700 dark:text-slate-200">{{
-                      item.label
-                    }}</span>
-                    <span v-if="item.hint" class="mt-0.5 block text-[12px] text-slate-400">{{ item.hint }}</span>
+                    <span class="block text-[13.5px] font-medium text-slate-700 dark:text-slate-200">{{ t(item.label) }}</span>
+                    <span v-if="item.hint" class="mt-0.5 block text-[12px] text-slate-400">{{ t(item.hint) }}</span>
                   </RouterLink>
                 </li>
                 <li v-if="col.extra" class="pt-1">
                   <RouterLink :to="col.extra.to" class="link-arrow px-2 text-[13px]" @click="closeAll">
-                    {{ col.extra.label }} <span aria-hidden="true">→</span>
+                    {{ t(col.extra.label) }} <span aria-hidden="true">→</span>
                   </RouterLink>
                 </li>
               </ul>
@@ -385,16 +404,16 @@ onBeforeUnmount(() => {
               class="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-6 dark:border-slate-800 dark:bg-slate-900"
             >
               <p class="text-[10px] font-semibold tracking-[0.16em] text-indigo-600 uppercase dark:text-indigo-400">
-                {{ menu.promo.eyebrow }}
+                {{ t(menu.promo.eyebrow) }}
               </p>
               <p class="mt-3 font-display text-4xl font-bold text-slate-900 dark:text-white">
-                {{ menu.promo.value }}
+                {{ t(menu.promo.value) }}
               </p>
               <p class="mt-2 text-[13px] leading-relaxed text-slate-600 dark:text-slate-400">
-                {{ menu.promo.text }}
+                {{ t(menu.promo.text) }}
               </p>
               <button type="button" class="btn-primary btn-sm mt-5 w-full" @click="promoClick(menu.promo)">
-                {{ menu.promo.action }}
+                {{ t(menu.promo.action) }}
               </button>
             </div>
           </div>
@@ -417,7 +436,7 @@ onBeforeUnmount(() => {
           class="fixed inset-0 z-[80] flex flex-col bg-white xl:hidden dark:bg-slate-950"
           role="dialog"
           aria-modal="true"
-          aria-label="Site menu"
+          :aria-label="t('Site menu')"
         >
           <div
             class="flex shrink-0 items-center justify-between border-b border-slate-200/80 px-5 py-3.5 dark:border-slate-800"
@@ -428,7 +447,7 @@ onBeforeUnmount(() => {
             <button
               type="button"
               class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300"
-              aria-label="Close menu"
+              :aria-label="t('Close menu')"
               @click="closeAll"
             >
               <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -445,7 +464,7 @@ onBeforeUnmount(() => {
               :aria-expanded="mobileSection === menu.key"
               @click="mobileSection = mobileSection === menu.key ? null : menu.key"
             >
-              {{ menu.label }}
+              {{ t(menu.label) }}
               <svg
                 class="h-4 w-4 text-slate-400 transition-transform"
                 :class="mobileSection === menu.key && 'rotate-180'"
@@ -464,13 +483,13 @@ onBeforeUnmount(() => {
                   :to="col.titleTo"
                   class="mb-1.5 block text-[11px] font-semibold tracking-[0.14em] text-indigo-600 uppercase dark:text-indigo-400"
                   @click="closeAll"
-                  >{{ col.title }} →</RouterLink
+                  >{{ t(col.title) }} →</RouterLink
                 >
                 <p
                   v-else-if="col.title"
                   class="mb-1.5 text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase"
                 >
-                  {{ col.title }}
+                  {{ t(col.title) }}
                 </p>
                 <RouterLink
                   v-for="item in col.items"
@@ -479,14 +498,14 @@ onBeforeUnmount(() => {
                   class="block rounded-lg px-3 py-2 text-[13.5px] text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-900"
                   @click="closeAll"
                 >
-                  {{ item.label }}
+                  {{ t(item.label) }}
                 </RouterLink>
                 <RouterLink
                   v-if="col.extra"
                   :to="col.extra.to"
                   class="block px-3 py-2 text-[13px] font-semibold text-indigo-600 dark:text-indigo-400"
                   @click="closeAll"
-                  >{{ col.extra.label }} →</RouterLink
+                  >{{ t(col.extra.label) }} →</RouterLink
                 >
               </div>
             </div>
@@ -499,16 +518,16 @@ onBeforeUnmount(() => {
               class="block border-b border-slate-100 py-3 text-sm font-semibold text-slate-900 dark:border-slate-900 dark:text-white"
               @click="closeAll"
             >
-              {{ link.label }}
+              {{ t(link.label) }}
             </RouterLink>
           </div>
 
           <div
             class="shrink-0 space-y-3 border-t border-slate-200/80 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] dark:border-slate-800"
           >
-            <button type="button" class="btn-primary w-full" @click="openLeadFromMobile">Request a Call</button>
+            <button type="button" class="btn-primary w-full" @click="openLeadFromMobile">{{ t('Request a Call') }}</button>
             <RouterLink to="/tools/project-estimator" class="btn-outline w-full" @click="closeAll">
-              Estimate my project
+              {{ t('Estimate my project') }}
             </RouterLink>
           </div>
         </div>

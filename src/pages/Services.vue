@@ -6,6 +6,7 @@ import ServiceCard from '../components/ServiceCard.vue'
 import Reveal from '../components/Reveal.vue'
 import { serviceCategories, services, servicesInCategory } from '../data/services'
 import { useUi } from '../composables/useUi'
+import { t } from '../i18n'
 
 const { openLead } = useUi()
 const active = ref('all')
@@ -19,16 +20,16 @@ const shown = computed(() =>
 
 <template>
   <PageHero
-    eyebrow="Services"
-    title="Fifteen ways we help you build, launch and grow"
-    lead="Organised into four categories so you can find the work you need and see what it costs before you talk to anyone."
+    :eyebrow="t('Services')"
+    :title="t('Fifteen ways we help you build, launch and grow')"
+    :lead="t('Organised into four categories so you can find the work you need and see what it costs before you talk to anyone.')"
     :crumbs="[{ label: 'Services' }]"
   >
     <template #actions>
       <button type="button" class="btn-primary" @click="openLead({ title: 'Talk through your project' })">
-        Talk to an Engineer
+        {{ t('Talk to an Engineer') }}
       </button>
-      <RouterLink to="/tools/project-estimator" class="btn-outline">Estimate My Project</RouterLink>
+      <RouterLink to="/tools/project-estimator" class="btn-outline">{{ t('Estimate My Project') }}</RouterLink>
     </template>
   </PageHero>
 
@@ -45,8 +46,8 @@ const shown = computed(() =>
         "
         @click="active = 'all'"
       >
-        All services
-        <span class="ml-1.5 text-[11.5px] opacity-70">{{ services.length }}</span>
+        {{ t('All services') }}
+        <span class="ml-1.5 text-[11.5px] opacity-70">{{ t(services.length) }}</span>
       </button>
       <button
         v-for="cat in serviceCategories"
@@ -60,7 +61,7 @@ const shown = computed(() =>
         "
         @click="active = cat.slug"
       >
-        <span class="mr-1" aria-hidden="true">{{ cat.icon }}</span>{{ cat.name }}
+        <span class="mr-1" aria-hidden="true">{{ t(cat.icon) }}</span>{{ t(cat.name) }}
         <span class="ml-1.5 text-[11.5px] opacity-70">{{ servicesInCategory(cat.slug).length }}</span>
       </button>
     </div>
@@ -71,13 +72,13 @@ const shown = computed(() =>
         <div class="flex flex-col gap-4 border-b border-slate-200/80 pb-6 sm:flex-row sm:items-end sm:justify-between dark:border-slate-800">
           <div class="max-w-2xl">
             <div class="flex items-center gap-3">
-              <span class="text-xl" aria-hidden="true">{{ group.icon }}</span>
-              <h2 class="font-display text-2xl font-bold text-slate-900 dark:text-white">{{ group.name }}</h2>
+              <span class="text-xl" aria-hidden="true">{{ t(group.icon) }}</span>
+              <h2 class="font-display text-2xl font-bold text-slate-900 dark:text-white">{{ t(group.name) }}</h2>
             </div>
-            <p class="mt-2 text-[14.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ group.tagline }}</p>
+            <p class="mt-2 text-[14.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ t(group.tagline) }}</p>
           </div>
           <RouterLink :to="`/services/category/${group.slug}`" class="link-arrow shrink-0">
-            Category overview <span aria-hidden="true">→</span>
+            {{ t('Category overview') }} <span aria-hidden="true">→</span>
           </RouterLink>
         </div>
       </Reveal>

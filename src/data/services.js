@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 
-export const serviceCategories = [
+// Shipped category content; the admin panel edits the reactive copy below.
+const seedCategories = [
   {
     slug: 'core-development',
     name: 'Core Development',
@@ -289,7 +290,9 @@ export const services = reactive(structuredClone(seedServices))
 
 export const serviceSeed = () => structuredClone(seedServices)
 
-export const categories = serviceCategories.map((c) => c.name)
+export const serviceCategories = reactive(structuredClone(seedCategories))
+
+export const categorySeed = () => structuredClone(seedCategories)
 
 export const getServiceById = (id) => services.find((s) => s.id === id)
 

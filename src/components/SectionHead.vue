@@ -1,4 +1,5 @@
 <script setup>
+import { t } from '../i18n'
 defineProps({
   eyebrow: { type: String, default: '' },
   title: { type: String, required: true },
@@ -13,9 +14,9 @@ defineProps({
     :class="center && 'sm:flex-col sm:items-center'"
   >
     <div :class="center ? 'max-w-3xl text-center' : 'max-w-2xl'">
-      <p v-if="eyebrow" class="eyebrow">{{ eyebrow }}</p>
-      <h2 class="h2" :class="eyebrow && 'mt-3'">{{ title }}</h2>
-      <p v-if="lead" class="lead mt-4">{{ lead }}</p>
+      <p v-if="eyebrow" class="eyebrow">{{ t(eyebrow) }}</p>
+      <h2 class="h2" :class="eyebrow && 'mt-3'">{{ t(title) }}</h2>
+      <p v-if="lead" class="lead mt-4">{{ t(lead) }}</p>
     </div>
     <div v-if="$slots.action" class="shrink-0">
       <slot name="action" />

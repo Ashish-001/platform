@@ -1,6 +1,7 @@
 <script setup>
 import PageHero from '../components/PageHero.vue'
 import { contact } from '../data/company'
+import { t } from '../i18n'
 
 const sections = [
   {
@@ -32,26 +33,24 @@ const sections = [
 
 <template>
   <PageHero
-    eyebrow="Legal"
-    title="Privacy policy"
-    lead="Short, because our data practices are short. We collect what you send us, use it to reply, and delete it when you ask."
+    :eyebrow="t('Legal')"
+    :title="t('Privacy policy')"
+    :lead="t('Short, because our data practices are short. We collect what you send us, use it to reply, and delete it when you ask.')"
     :crumbs="[{ label: 'Privacy' }]"
   />
 
   <section class="shell section max-w-3xl">
     <div class="space-y-8">
       <div v-for="section in sections" :key="section.title">
-        <h2 class="h3 text-lg">{{ section.title }}</h2>
-        <p class="mt-3 text-[14.5px] leading-[1.8] text-slate-600 dark:text-slate-400">{{ section.body }}</p>
+        <h2 class="h3 text-lg">{{ t(section.title) }}</h2>
+        <p class="mt-3 text-[14.5px] leading-[1.8] text-slate-600 dark:text-slate-400">{{ t(section.body) }}</p>
       </div>
     </div>
 
     <div class="card mt-12 p-7">
       <p class="text-[13.5px] leading-relaxed text-slate-600 dark:text-slate-300">
-        Questions about any of this, or a deletion request? Email
-        <a :href="`mailto:${contact.email}`" class="font-semibold text-indigo-600 dark:text-indigo-400">{{
-          contact.email
-        }}</a
+        {{ t('Questions about any of this, or a deletion request? Email') }}
+        <a :href="`mailto:${contact.email}`" class="font-semibold text-indigo-600 dark:text-indigo-400">{{ t(contact.email) }}</a
         >.
       </p>
     </div>

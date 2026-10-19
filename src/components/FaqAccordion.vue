@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { faqGroups } from '../data/faqs'
+import { t } from '../i18n'
 
 const props = defineProps({
   groups: { type: Array, default: () => faqGroups },
@@ -32,7 +33,7 @@ watch(activeGroup, () => (openItem.value = 0))
         :aria-pressed="activeGroup === group.name"
         @click="activeGroup = group.name"
       >
-        <span class="whitespace-nowrap lg:whitespace-normal">{{ group.name }}</span>
+        <span class="whitespace-nowrap lg:whitespace-normal">{{ t(group.name) }}</span>
       </button>
     </div>
 
@@ -44,7 +45,7 @@ watch(activeGroup, () => (openItem.value = 0))
           :aria-expanded="openItem === i"
           @click="openItem = openItem === i ? -1 : i"
         >
-          <span class="text-[15px] font-semibold text-slate-900 dark:text-white">{{ item.q }}</span>
+          <span class="text-[15px] font-semibold text-slate-900 dark:text-white">{{ t(item.q) }}</span>
           <span
             class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition dark:border-slate-700"
             :class="openItem === i && 'rotate-45 border-indigo-300 text-indigo-600'"
@@ -56,7 +57,7 @@ watch(activeGroup, () => (openItem.value = 0))
           </span>
         </button>
         <p v-if="openItem === i" class="pb-6 text-[14px] leading-[1.8] text-slate-600 dark:text-slate-400">
-          {{ item.a }}
+          {{ t(item.a) }}
         </p>
       </div>
     </div>

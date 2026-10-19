@@ -1,15 +1,17 @@
 <script setup>
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import BrandMark from './BrandMark.vue'
 import { serviceCategories } from '../data/services'
 import { industries } from '../data/industries'
 import { contact, ratings } from '../data/company'
 import { useUi } from '../composables/useUi'
+import { t } from '../i18n'
 
 const { openLead } = useUi()
 const year = new Date().getFullYear()
 
-const columns = [
+const columns = computed(() => [
   {
     title: 'Services',
     links: serviceCategories.map((c) => ({ to: `/services/category/${c.slug}`, label: c.name })),
@@ -47,7 +49,7 @@ const columns = [
       { to: '/testimonials', label: 'Testimonials' },
     ],
   },
-]
+])
 
 const socials = [
   {
@@ -73,13 +75,12 @@ const socials = [
         <div class="texture-dots pointer-events-none absolute inset-0"></div>
         <div class="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div class="max-w-xl">
-            <p class="text-[11px] font-semibold tracking-[0.18em] text-indigo-300 uppercase">Free, no obligation</p>
+            <p class="text-[11px] font-semibold tracking-[0.18em] text-indigo-300 uppercase">{{ t('Free, no obligation') }}</p>
             <h2 class="mt-3 font-display text-3xl font-bold text-white">
-              Get a code & performance audit of your current site
+              {{ t('Get a code & performance audit of your current site') }}
             </h2>
             <p class="mt-3 text-sm leading-relaxed text-slate-300">
-              Thirty minutes with a senior engineer. You leave with a written list of what is slowing you
-              down and what it would take to fix — whether or not you hire us.
+              {{ t('Thirty minutes with a senior engineer. You leave with a written list of what is slowing you down and what it would take to fix — whether or not you hire us.') }}
             </p>
           </div>
           <div class="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col">
@@ -88,10 +89,10 @@ const socials = [
               class="btn-light"
               @click="openLead({ title: 'Get a free audit', subtitle: 'Thirty minutes with a senior engineer, no obligation.' })"
             >
-              Get My Free Audit
+              {{ t('Get My Free Audit') }}
             </button>
             <RouterLink to="/tools/project-estimator" class="btn inline-flex border border-white/25 text-white hover:bg-white/10">
-              Estimate my project
+              {{ t('Estimate my project') }}
             </RouterLink>
           </div>
         </div>
@@ -103,19 +104,18 @@ const socials = [
       <div class="lg:col-span-2">
         <RouterLink to="/"><BrandMark tagline /></RouterLink>
         <p class="mt-5 max-w-xs text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-          A full-stack development studio delivering websites, web apps, APIs and AI integrations — built by
-          senior engineers who stay on after launch.
+          {{ t('A full-stack development studio delivering websites, web apps, APIs and AI integrations — built by senior engineers who stay on after launch.') }}
         </p>
         <div class="mt-6 space-y-2 text-sm">
           <a
             :href="contact.phoneHref"
             class="block text-slate-600 transition hover:text-indigo-600 dark:text-slate-300"
-            >{{ contact.phone }}</a
+            >{{ t(contact.phone) }}</a
           >
           <a
             :href="`mailto:${contact.email}`"
             class="block text-slate-600 transition hover:text-indigo-600 dark:text-slate-300"
-            >{{ contact.email }}</a
+            >{{ t(contact.email) }}</a
           >
         </div>
         <div class="mt-6 flex gap-3">
@@ -136,18 +136,18 @@ const socials = [
       </div>
 
       <div v-for="col in columns" :key="col.title">
-        <h3 class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ col.title }}</h3>
+        <h3 class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t(col.title) }}</h3>
         <ul class="mt-4 space-y-2.5">
           <li v-for="link in col.links" :key="link.to">
             <RouterLink
               :to="link.to"
               class="text-[13.5px] text-slate-600 transition hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
-              >{{ link.label }}</RouterLink
+              >{{ t(link.label) }}</RouterLink
             >
           </li>
           <li v-if="col.extra">
             <RouterLink :to="col.extra.to" class="text-[13.5px] font-semibold text-indigo-600 dark:text-indigo-400"
-              >{{ col.extra.label }} →</RouterLink
+              >{{ t(col.extra.label) }} →</RouterLink
             >
           </li>
         </ul>
@@ -161,20 +161,20 @@ const socials = [
         :key="r.platform"
         class="chip gap-1.5"
       >
-        <span class="font-semibold text-slate-800 dark:text-white">{{ r.platform }}</span>
-        <span class="text-indigo-600 dark:text-indigo-400">{{ r.score }}</span>
-        <span class="text-slate-400">· {{ r.detail }}</span>
+        <span class="font-semibold text-slate-800 dark:text-white">{{ t(r.platform) }}</span>
+        <span class="text-indigo-600 dark:text-indigo-400">{{ t(r.score) }}</span>
+        <span class="text-slate-400">· {{ t(r.detail) }}</span>
       </span>
     </div>
 
     <!-- Legal -->
     <div class="border-t border-slate-200/80 py-5 dark:border-slate-800">
       <div class="shell flex flex-col items-center justify-between gap-3 sm:flex-row">
-        <p class="text-xs text-slate-400">© {{ year }} Service. All rights reserved.</p>
+        <p class="text-xs text-slate-400">© {{ year }} Service. {{ t('All rights reserved.') }}</p>
         <div class="flex gap-5 text-xs text-slate-400">
-          <RouterLink to="/privacy" class="transition hover:text-indigo-600">Privacy Policy</RouterLink>
-          <RouterLink to="/sitemap" class="transition hover:text-indigo-600">Sitemap</RouterLink>
-          <RouterLink to="/faqs" class="transition hover:text-indigo-600">FAQs</RouterLink>
+          <RouterLink to="/privacy" class="transition hover:text-indigo-600">{{ t('Privacy Policy') }}</RouterLink>
+          <RouterLink to="/sitemap" class="transition hover:text-indigo-600">{{ t('Sitemap') }}</RouterLink>
+          <RouterLink to="/faqs" class="transition hover:text-indigo-600">{{ t('FAQs') }}</RouterLink>
         </div>
       </div>
     </div>

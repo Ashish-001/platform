@@ -10,6 +10,7 @@ import { getCategoryBySlug, getServiceById, servicesInCategory } from '../data/s
 import { caseStudies } from '../data/caseStudies'
 import { process } from '../data/team'
 import { useUi } from '../composables/useUi'
+import { t } from '../i18n'
 
 const route = useRoute()
 const { openLead } = useUi()
@@ -42,31 +43,31 @@ const proof = computed(() =>
         <button
           type="button"
           class="btn-primary"
-          @click="openLead({ title: `Enquire about ${service.title}`, subtitle: service.shortDesc })"
+          @click="openLead({ title: t('Enquire about {service}', { service: t(service.title) }), subtitle: service.shortDesc })"
         >
-          Request a Quote
+          {{ t('Request a Quote') }}
         </button>
-        <RouterLink to="/tools/project-estimator" class="btn-outline">Estimate cost</RouterLink>
+        <RouterLink to="/tools/project-estimator" class="btn-outline">{{ t('Estimate cost') }}</RouterLink>
       </template>
 
       <template #aside>
         <div class="grid gap-5 sm:grid-cols-3">
           <div class="card p-6">
-            <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Typical investment</p>
-            <p class="mt-3 font-display text-2xl font-bold text-slate-900 dark:text-white">{{ service.priceRange }}</p>
+            <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Typical investment') }}</p>
+            <p class="mt-3 font-display text-2xl font-bold text-slate-900 dark:text-white">{{ t(service.priceRange) }}</p>
           </div>
           <div class="card p-6">
-            <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Typical timeline</p>
-            <p class="mt-3 font-display text-2xl font-bold text-slate-900 dark:text-white">{{ service.timeline }}</p>
+            <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Typical timeline') }}</p>
+            <p class="mt-3 font-display text-2xl font-bold text-slate-900 dark:text-white">{{ t(service.timeline) }}</p>
           </div>
           <div class="card p-6">
-            <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Stack</p>
+            <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Stack') }}</p>
             <div class="mt-3 flex flex-wrap gap-1.5">
               <span
                 v-for="tech in service.technologies"
                 :key="tech"
                 class="rounded-md bg-slate-100 px-2 py-0.5 text-[11.5px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-                >{{ tech }}</span
+                >{{ t(tech) }}</span
               >
             </div>
           </div>
@@ -77,7 +78,7 @@ const proof = computed(() =>
     <section class="shell section grid gap-12 lg:grid-cols-[1.4fr_1fr]">
       <div>
         <Reveal>
-          <h2 class="h2 text-3xl">What is included</h2>
+          <h2 class="h2 text-3xl">{{ t('What is included') }}</h2>
           <div class="mt-8 grid gap-4 sm:grid-cols-2">
             <div
               v-for="feature in service.features"
@@ -85,26 +86,26 @@ const proof = computed(() =>
               class="card flex items-start gap-3 p-5"
             >
               <span class="mt-0.5 text-indigo-600 dark:text-indigo-400" aria-hidden="true">✓</span>
-              <span class="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300">{{ feature }}</span>
+              <span class="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300">{{ t(feature) }}</span>
             </div>
           </div>
         </Reveal>
 
         <Reveal :delay="80">
-          <h2 class="h2 mt-16 text-3xl">How the engagement runs</h2>
+          <h2 class="h2 mt-16 text-3xl">{{ t('How the engagement runs') }}</h2>
           <ol class="mt-8 space-y-4">
             <li v-for="step in process" :key="step.step" class="flex gap-5">
-              <span class="font-display text-[13px] font-bold text-indigo-600 dark:text-indigo-400">{{ step.step }}</span>
+              <span class="font-display text-[13px] font-bold text-indigo-600 dark:text-indigo-400">{{ t(step.step) }}</span>
               <div class="border-b border-slate-200/80 pb-4 dark:border-slate-800">
-                <h3 class="font-display text-[15px] font-semibold text-slate-900 dark:text-white">{{ step.title }}</h3>
-                <p class="mt-1.5 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ step.desc }}</p>
+                <h3 class="font-display text-[15px] font-semibold text-slate-900 dark:text-white">{{ t(step.title) }}</h3>
+                <p class="mt-1.5 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ t(step.desc) }}</p>
               </div>
             </li>
           </ol>
         </Reveal>
 
         <Reveal v-if="proof.length" :delay="80">
-          <h2 class="h2 mt-16 text-3xl">Proof from real projects</h2>
+          <h2 class="h2 mt-16 text-3xl">{{ t('Proof from real projects') }}</h2>
           <div class="mt-8 grid gap-5 sm:grid-cols-2">
             <RouterLink
               v-for="c in proof"
@@ -112,10 +113,10 @@ const proof = computed(() =>
               :to="`/case-studies/${c.slug}`"
               class="card card-hover p-6"
             >
-              <p class="eyebrow">{{ c.client }}</p>
-              <p class="mt-3 font-display text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ c.headline }}</p>
-              <p class="mt-3 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">{{ c.summary }}</p>
-              <span class="link-arrow mt-5">Read case study <span aria-hidden="true">→</span></span>
+              <p class="eyebrow">{{ t(c.client) }}</p>
+              <p class="mt-3 font-display text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ t(c.headline) }}</p>
+              <p class="mt-3 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">{{ t(c.summary) }}</p>
+              <span class="link-arrow mt-5">{{ t('Read case study') }} <span aria-hidden="true">→</span></span>
             </RouterLink>
           </div>
         </Reveal>
@@ -124,9 +125,9 @@ const proof = computed(() =>
       <!-- Sidebar -->
       <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
         <div class="card p-7">
-          <h3 class="h3 text-lg">Request a quote</h3>
+          <h3 class="h3 text-lg">{{ t('Request a quote') }}</h3>
           <p class="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
-            Pre-filled for {{ service.title }}. We reply within one business day.
+            {{ t('Pre-filled for {service}. We reply within one business day.', { service: t(service.title) }) }}
           </p>
           <div class="mt-6">
             <ContactForm :preselected-service="service.title" />
@@ -134,21 +135,21 @@ const proof = computed(() =>
         </div>
 
         <div v-if="category" class="card p-7">
-          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Part of</p>
+          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Part of') }}</p>
           <RouterLink
             :to="`/services/category/${category.slug}`"
             class="mt-3 flex items-center gap-2 font-display text-[15px] font-semibold text-slate-900 dark:text-white"
           >
-            <span aria-hidden="true">{{ category.icon }}</span> {{ category.name }}
+            <span aria-hidden="true">{{ t(category.icon) }}</span> {{ t(category.name) }}
           </RouterLink>
-          <p class="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">{{ category.tagline }}</p>
+          <p class="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">{{ t(category.tagline) }}</p>
         </div>
       </aside>
     </section>
 
     <section v-if="related.length" class="border-t border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900/40">
       <div class="shell section">
-        <h2 class="h2 text-3xl">Often bought together</h2>
+        <h2 class="h2 text-3xl">{{ t('Often bought together') }}</h2>
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <ServiceCard v-for="s in related" :key="s.id" :service="s" />
         </div>

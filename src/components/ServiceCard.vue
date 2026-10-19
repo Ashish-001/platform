@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { t } from '../i18n'
 
 defineProps({
   service: { type: Object, required: true },
@@ -13,16 +14,16 @@ defineProps({
       <span
         class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-xl dark:bg-slate-800"
         aria-hidden="true"
-        >{{ service.icon }}</span
+        >{{ t(service.icon) }}</span
       >
-      <span class="text-[11px] font-semibold tracking-wide text-slate-400 uppercase">{{ service.priceRange }}</span>
+      <span class="text-[11px] font-semibold tracking-wide text-slate-400 uppercase">{{ t(service.priceRange) }}</span>
     </div>
 
     <h3 class="mt-5 font-display text-[17px] leading-snug font-semibold text-slate-900 dark:text-white">
-      {{ service.title }}
+      {{ t(service.title) }}
     </h3>
     <p class="mt-2 flex-1 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-      {{ service.shortDesc }}
+      {{ t(service.shortDesc) }}
     </p>
 
     <div v-if="!compact" class="mt-5 flex flex-wrap gap-1.5">
@@ -31,12 +32,12 @@ defineProps({
         :key="tech"
         class="rounded-md bg-slate-100 px-2 py-0.5 text-[11.5px] font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300"
       >
-        {{ tech }}
+        {{ t(tech) }}
       </span>
     </div>
 
     <span class="link-arrow mt-5">
-      Learn more <span aria-hidden="true" class="transition group-hover:translate-x-0.5">→</span>
+      {{ t('Learn more') }} <span aria-hidden="true" class="transition group-hover:translate-x-0.5">→</span>
     </span>
   </RouterLink>
 </template>

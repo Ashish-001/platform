@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { blogCategories } from '../../data/blog'
+import { defaultLanguage, languages } from '../../data/languages'
 import { clone, slugify } from '../../stores/content'
 
 const props = defineProps({
@@ -15,6 +16,7 @@ const blank = () => ({
   category: blogCategories[0],
   date: new Date().toISOString().slice(0, 10),
   readTime: '6 min',
+  languages: [defaultLanguage.value],
   excerpt: '',
   body: [{ type: 'p', text: '' }],
 })
@@ -28,6 +30,7 @@ watch(
   () => props.post,
   (post) => {
     form.value = post ? clone(post) : blank()
+    form.value.languages ??= languages.map((l) => l.code)
     originalSlug.value = post?.slug ?? null
     slugTouched.value = Boolean(post)
     error.value = ''
@@ -99,6 +102,8 @@ function submit() {
   if (!cleaned.slug) return (error.value = 'A slug is required.')
   if (!cleaned.excerpt.trim()) return (error.value = 'An excerpt is required — it shows on listing cards.')
   if (!cleaned.body.length) return (error.value = 'Add at least one content block.')
+  cleaned.languages = languages.map((l) => l.code).filter((code) => cleaned.languages.includes(code))
+  if (!cleaned.languages.length) return (error.value = 'Pick at least one language to show this post in.')
 
   error.value = ''
   emit('save', { post: cleaned, originalSlug: originalSlug.value })
@@ -123,8 +128,11 @@ function submit() {
           placeholder="post-url-slug"
           @input="slugTouched = true"
         />
-        <p class="mt-1.5 text-[11.5px] text-slate-400">/blog/{{ form.slug || 'post-url-slug' }}</p>
+        <p class="mt-1.5 text-[11.5px] text-slate-400">
+          /{{ form.languages[0] || 'en' }}/blog/{{ form.slug || 'post-url-slug' }}
+        </p>
       </div>
+
 
       <div>
         <label class="label" for="pf-category">Category</label>
@@ -153,6 +161,27 @@ function submit() {
           placeholder="One or two sentences shown on listing cards and the post hero."
         ></textarea>
       </div>
+
+      <fieldset class="sm:col-span-2">
+        <legend class="label">Show in languages *</legend>
+        <div class="mt-1 flex flex-wrap gap-2">
+          <label
+            v-for="lang in languages"
+            :key="lang.code"
+            class="flex cursor-pointer items-center gap-2 rounded-xl border px-3.5 py-2 text-[13px] transition"
+            :class="
+              form.languages.includes(lang.code)
+                ? 'border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700 dark:bg-slate-900 dark:text-indigo-300'
+                : 'border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300'
+            "
+          >
+            <input v-model="form.languages" type="checkbox" :value="lang.code" class="h-4 w-4 rounded border-slate-300" />
+            {{ lang.name }}
+            <span class="text-[11px] text-slate-400 uppercase">{{ lang.code }}</span>
+          </label>
+        </div>
+        <p class="mt-1.5 text-[11.5px] text-slate-400">The post appears on the blog of every language ticked here.</p>
+      </fieldset>
     </div>
 
     <!-- Body blocks -->

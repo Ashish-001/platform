@@ -2,11 +2,14 @@
 import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { serviceCategories, servicesInCategory } from '../data/services'
+import { t } from '../i18n'
 
 const activeSlug = ref(serviceCategories[0].slug)
 
-const active = computed(() => serviceCategories.find((c) => c.slug === activeSlug.value))
-const activeServices = computed(() => servicesInCategory(activeSlug.value))
+const active = computed(
+  () => serviceCategories.find((c) => c.slug === activeSlug.value) ?? serviceCategories[0],
+)
+const activeServices = computed(() => servicesInCategory(active.value.slug))
 </script>
 
 <template>
@@ -26,14 +29,14 @@ const activeServices = computed(() => servicesInCategory(activeSlug.value))
         :aria-pressed="activeSlug === cat.slug"
         @click="activeSlug = cat.slug"
       >
-        <span class="text-lg" aria-hidden="true">{{ cat.icon }}</span>
+        <span class="text-lg" aria-hidden="true">{{ t(cat.icon) }}</span>
         <span>
           <span
             class="block text-[13.5px] font-semibold whitespace-nowrap lg:whitespace-normal"
             :class="activeSlug === cat.slug ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-800 dark:text-white'"
-            >{{ cat.name }}</span
+            >{{ t(cat.name) }}</span
           >
-          <span class="hidden text-[12px] text-slate-400 lg:block">{{ servicesInCategory(cat.slug).length }} services</span>
+          <span class="hidden text-[12px] text-slate-400 lg:block">{{ t('{n} services', { n: servicesInCategory(cat.slug).length }) }}</span>
         </span>
       </button>
     </div>
@@ -42,17 +45,18 @@ const activeServices = computed(() => servicesInCategory(activeSlug.value))
     <div class="card p-7 sm:p-9">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div class="max-w-xl">
-          <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white">{{ active.name }}</h3>
+          <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white">{{ t(active.name) }}</h3>
           <p class="mt-3 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
-            {{ active.description }}
+            {{ t(active.description) }}
           </p>
         </div>
         <div
+          v-if="active.stat?.value"
           class="shrink-0 rounded-xl border border-slate-200/80 bg-slate-50 px-5 py-4 text-center dark:border-slate-800 dark:bg-slate-950"
         >
-          <p class="font-display text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ active.stat.value }}</p>
+          <p class="font-display text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ t(active.stat.value) }}</p>
           <p class="mt-1 max-w-[150px] text-[11.5px] leading-snug text-slate-500 dark:text-slate-400">
-            {{ active.stat.label }}
+            {{ t(active.stat.label) }}
           </p>
         </div>
       </div>
@@ -60,12 +64,12 @@ const activeServices = computed(() => servicesInCategory(activeSlug.value))
       <ul class="mt-7 grid gap-2.5 sm:grid-cols-2">
         <li v-for="outcome in active.outcomes" :key="outcome" class="flex gap-2.5 text-[13.5px] text-slate-600 dark:text-slate-300">
           <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500"></span>
-          <span>{{ outcome }}</span>
+          <span>{{ t(outcome) }}</span>
         </li>
       </ul>
 
       <div class="mt-8 border-t border-slate-200/80 pt-6 dark:border-slate-800">
-        <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Included services</p>
+        <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Included services') }}</p>
         <div class="mt-4 flex flex-wrap gap-2">
           <RouterLink
             v-for="s in activeServices"
@@ -73,11 +77,11 @@ const activeServices = computed(() => servicesInCategory(activeSlug.value))
             :to="`/services/${s.id}`"
             class="chip transition hover:border-indigo-300 hover:text-indigo-700 dark:hover:border-indigo-700"
           >
-            <span class="mr-1.5" aria-hidden="true">{{ s.icon }}</span>{{ s.title }}
+            <span class="mr-1.5" aria-hidden="true">{{ t(s.icon) }}</span>{{ t(s.title) }}
           </RouterLink>
         </div>
         <RouterLink :to="`/services/category/${active.slug}`" class="link-arrow mt-6 inline-flex">
-          Discover {{ active.name }} <span aria-hidden="true">→</span>
+          {{ t('Discover {name}', { name: t(active.name) }) }} <span aria-hidden="true">→</span>
         </RouterLink>
       </div>
     </div>

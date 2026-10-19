@@ -5,15 +5,16 @@ import Reveal from '../components/Reveal.vue'
 import FaqAccordion from '../components/FaqAccordion.vue'
 import { contact, offices } from '../data/company'
 import { faqGroups } from '../data/faqs'
+import { t } from '../i18n'
 
 const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].includes(g.name))
 </script>
 
 <template>
   <PageHero
-    eyebrow="Contact"
-    title="Let’s do great work together"
-    lead="Tell us what you need and you will hear back within one business day — from an engineer who can actually answer technical questions."
+    :eyebrow="t('Contact')"
+    :title="t('Let’s do great work together')"
+    :lead="t('Tell us what you need and you will hear back within one business day — from an engineer who can actually answer technical questions.')"
     :crumbs="[{ label: 'Contact' }]"
   />
 
@@ -22,7 +23,7 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
     <div class="space-y-6">
       <Reveal>
         <div class="card p-7">
-          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Talk to us directly</p>
+          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Talk to us directly') }}</p>
           <div class="mt-5 space-y-4">
             <a :href="contact.phoneHref" class="flex items-center gap-3 group">
               <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-slate-800 dark:text-indigo-300">
@@ -35,10 +36,8 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
                 </svg>
               </span>
               <span>
-                <span class="block text-[13.5px] font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white">{{
-                  contact.phone
-                }}</span>
-                <span class="block text-[12px] text-slate-400">{{ contact.hours }}</span>
+                <span class="block text-[13.5px] font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white">{{ t(contact.phone) }}</span>
+                <span class="block text-[12px] text-slate-400">{{ t(contact.hours) }}</span>
               </span>
             </a>
 
@@ -53,10 +52,8 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
                 </svg>
               </span>
               <span>
-                <span class="block text-[13.5px] font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white">{{
-                  contact.email
-                }}</span>
-                <span class="block text-[12px] text-slate-400">Project enquiries</span>
+                <span class="block text-[13.5px] font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white">{{ t(contact.email) }}</span>
+                <span class="block text-[12px] text-slate-400">{{ t('Project enquiries') }}</span>
               </span>
             </a>
 
@@ -71,10 +68,8 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
                 </svg>
               </span>
               <span>
-                <span class="block text-[13.5px] font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white">{{
-                  contact.hr
-                }}</span>
-                <span class="block text-[12px] text-slate-400">Careers & applications</span>
+                <span class="block text-[13.5px] font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white">{{ t(contact.hr) }}</span>
+                <span class="block text-[12px] text-slate-400">{{ t('Careers & applications') }}</span>
               </span>
             </a>
           </div>
@@ -84,13 +79,13 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
       <Reveal v-for="(office, i) in offices" :key="office.city" :delay="(i + 1) * 70">
         <div class="card p-7">
           <div class="flex items-center justify-between">
-            <h2 class="font-display text-[16px] font-semibold text-slate-900 dark:text-white">{{ office.city }}</h2>
-            <span class="chip">{{ office.role }}</span>
+            <h2 class="font-display text-[16px] font-semibold text-slate-900 dark:text-white">{{ t(office.city) }}</h2>
+            <span class="chip">{{ t(office.role) }}</span>
           </div>
-          <p class="mt-4 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ office.address }}</p>
+          <p class="mt-4 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ t(office.address) }}</p>
           <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-[13px]">
-            <a :href="`mailto:${office.email}`" class="text-indigo-600 dark:text-indigo-400">{{ office.email }}</a>
-            <a :href="contact.phoneHref" class="text-slate-500 dark:text-slate-400">{{ office.phone }}</a>
+            <a :href="`mailto:${office.email}`" class="text-indigo-600 dark:text-indigo-400">{{ t(office.email) }}</a>
+            <a :href="contact.phoneHref" class="text-slate-500 dark:text-slate-400">{{ t(office.phone) }}</a>
           </div>
         </div>
       </Reveal>
@@ -99,9 +94,9 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
     <!-- Form -->
     <Reveal :delay="80">
       <div class="card p-7 sm:p-9">
-        <h2 class="h3 text-xl">Tell us about your project</h2>
+        <h2 class="h3 text-xl">{{ t('Tell us about your project') }}</h2>
         <p class="mt-2 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-          The more context you give, the more specific our first reply can be.
+          {{ t('The more context you give, the more specific our first reply can be.') }}
         </p>
         <div class="mt-7">
           <ContactForm />
@@ -112,8 +107,8 @@ const contactFaqs = faqGroups.filter((g) => ['Process', 'Pricing & Packages'].in
 
   <section class="border-t border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900/40">
     <div class="shell section">
-      <h2 class="h2 text-3xl">Before you write in</h2>
-      <p class="lead mt-4 max-w-2xl">The questions we are asked most often about process and pricing.</p>
+      <h2 class="h2 text-3xl">{{ t('Before you write in') }}</h2>
+      <p class="lead mt-4 max-w-2xl">{{ t('The questions we are asked most often about process and pricing.') }}</p>
       <div class="mt-10">
         <FaqAccordion :groups="contactFaqs" />
       </div>

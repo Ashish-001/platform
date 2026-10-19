@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { caseStudies } from '../data/caseStudies'
+import { t } from '../i18n'
 
 const items = caseStudies.slice(0, 4)
 const activeSlug = ref(items[0].slug)
@@ -24,23 +25,23 @@ const active = computed(() => items.find((c) => c.slug === activeSlug.value))
         :aria-pressed="activeSlug === item.slug"
         @click="activeSlug = item.slug"
       >
-        {{ item.client }}
+        {{ t(item.client) }}
       </button>
     </div>
 
     <div class="card mt-6 grid gap-8 p-7 sm:p-9 lg:grid-cols-[1.2fr_1fr] lg:gap-12">
       <div>
-        <p class="eyebrow">{{ active.industry }}</p>
+        <p class="eyebrow">{{ t(active.industry) }}</p>
         <h3 class="mt-3 font-display text-2xl leading-snug font-bold text-slate-900 dark:text-white">
-          {{ active.title }}
+          {{ t(active.title) }}
         </h3>
-        <p class="mt-4 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">{{ active.summary }}</p>
+        <p class="mt-4 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">{{ t(active.summary) }}</p>
         <div class="mt-6 flex flex-wrap gap-2">
-          <span v-for="tech in active.stack" :key="tech" class="chip">{{ tech }}</span>
+          <span v-for="tech in active.stack" :key="tech" class="chip">{{ t(tech) }}</span>
         </div>
         <div class="mt-7 flex flex-wrap gap-3">
-          <RouterLink :to="`/case-studies/${active.slug}`" class="btn-primary btn-sm">View Case Study</RouterLink>
-          <RouterLink to="/case-studies" class="btn-outline btn-sm">All Case Studies</RouterLink>
+          <RouterLink :to="`/case-studies/${active.slug}`" class="btn-primary btn-sm">{{ t('View Case Study') }}</RouterLink>
+          <RouterLink to="/case-studies" class="btn-outline btn-sm">{{ t('All Case Studies') }}</RouterLink>
         </div>
       </div>
 
@@ -50,8 +51,8 @@ const active = computed(() => items.find((c) => c.slug === activeSlug.value))
           :key="result.label"
           class="rounded-xl border border-slate-200/80 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950"
         >
-          <p class="font-display text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ result.value }}</p>
-          <p class="mt-1 text-[11.5px] leading-snug text-slate-500 dark:text-slate-400">{{ result.label }}</p>
+          <p class="font-display text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ t(result.value) }}</p>
+          <p class="mt-1 text-[11.5px] leading-snug text-slate-500 dark:text-slate-400">{{ t(result.label) }}</p>
         </div>
       </div>
     </div>

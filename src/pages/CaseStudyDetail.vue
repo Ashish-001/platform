@@ -8,6 +8,7 @@ import NotFound from './NotFound.vue'
 import { caseStudies, getCaseStudyBySlug } from '../data/caseStudies'
 import { getServiceById } from '../data/services'
 import { useUi } from '../composables/useUi'
+import { t } from '../i18n'
 
 const route = useRoute()
 const { openLead } = useUi()
@@ -24,7 +25,7 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
 
   <template v-else>
     <PageHero
-      :eyebrow="`${study.client} · ${study.industry}`"
+      :eyebrow="`${study.client} · ${t(study.industry)}`"
       :title="study.title"
       :lead="study.summary"
       wide
@@ -36,18 +37,18 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
           class="btn-primary"
           @click="openLead({ title: 'Start a project like this', subtitle: study.headline })"
         >
-          Start Something Similar
+          {{ t('Start Something Similar') }}
         </button>
         <RouterLink :to="`/industries/${study.industrySlug}`" class="btn-outline">
-          More {{ study.industry }} work
+          {{ t('More {industry} work', { industry: t(study.industry) }) }}
         </RouterLink>
       </template>
 
       <template #aside>
         <div class="grid gap-4 sm:grid-cols-4">
           <div v-for="result in study.results" :key="result.label" class="card p-6">
-            <p class="font-display text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ result.value }}</p>
-            <p class="mt-1.5 text-[12px] leading-snug text-slate-500 dark:text-slate-400">{{ result.label }}</p>
+            <p class="font-display text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ t(result.value) }}</p>
+            <p class="mt-1.5 text-[12px] leading-snug text-slate-500 dark:text-slate-400">{{ t(result.label) }}</p>
           </div>
         </div>
       </template>
@@ -56,12 +57,12 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
     <section class="shell section grid gap-12 lg:grid-cols-[1.5fr_1fr]">
       <div>
         <Reveal>
-          <h2 class="h2 text-3xl">The challenge</h2>
-          <p class="mt-5 text-[15px] leading-[1.8] text-slate-600 dark:text-slate-400">{{ study.challenge }}</p>
+          <h2 class="h2 text-3xl">{{ t('The challenge') }}</h2>
+          <p class="mt-5 text-[15px] leading-[1.8] text-slate-600 dark:text-slate-400">{{ t(study.challenge) }}</p>
         </Reveal>
 
         <Reveal :delay="80">
-          <h2 class="h2 mt-14 text-3xl">What we did</h2>
+          <h2 class="h2 mt-14 text-3xl">{{ t('What we did') }}</h2>
           <ol class="mt-8 space-y-5">
             <li v-for="(step, i) in study.approach" :key="step" class="flex gap-5">
               <span
@@ -69,7 +70,7 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
                 >{{ i + 1 }}</span
               >
               <p class="border-b border-slate-200/80 pb-5 text-[14.5px] leading-[1.75] text-slate-600 dark:border-slate-800 dark:text-slate-400">
-                {{ step }}
+                {{ t(step) }}
               </p>
             </li>
           </ol>
@@ -79,11 +80,11 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
           <figure class="card mt-14 p-8">
             <span class="font-display text-3xl leading-none text-indigo-300 dark:text-indigo-700">“</span>
             <blockquote class="mt-3 text-[16px] leading-[1.8] text-slate-700 dark:text-slate-200">
-              {{ study.quote.text }}
+              {{ t(study.quote.text) }}
             </blockquote>
             <figcaption class="mt-5 text-[13px] text-slate-500 dark:text-slate-400">
-              <span class="font-semibold text-slate-900 dark:text-white">{{ study.quote.author }}</span> ·
-              {{ study.quote.role }}
+              <span class="font-semibold text-slate-900 dark:text-white">{{ t(study.quote.author) }}</span> ·
+              {{ t(study.quote.role) }}
             </figcaption>
           </figure>
         </Reveal>
@@ -91,26 +92,26 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
 
       <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
         <div class="card p-7">
-          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Stack</p>
+          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Stack') }}</p>
           <div class="mt-4 flex flex-wrap gap-1.5">
             <span
               v-for="tech in study.stack"
               :key="tech"
               class="rounded-md bg-slate-100 px-2 py-0.5 text-[11.5px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-              >{{ tech }}</span
+              >{{ t(tech) }}</span
             >
           </div>
         </div>
 
         <div class="card p-7">
-          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">Headline result</p>
-          <p class="mt-3 font-display text-3xl font-bold text-slate-900 dark:text-white">{{ study.headline }}</p>
+          <p class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">{{ t('Headline result') }}</p>
+          <p class="mt-3 font-display text-3xl font-bold text-slate-900 dark:text-white">{{ t(study.headline) }}</p>
           <button
             type="button"
             class="btn-primary btn-sm mt-6 w-full"
             @click="openLead({ title: 'Get results like these' })"
           >
-            Talk to an Engineer
+            {{ t('Talk to an Engineer') }}
           </button>
         </div>
       </aside>
@@ -118,7 +119,7 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
 
     <section class="border-y border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900/40">
       <div class="shell section">
-        <h2 class="h2 text-3xl">Services used on this project</h2>
+        <h2 class="h2 text-3xl">{{ t('Services used on this project') }}</h2>
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <ServiceCard v-for="s in usedServices" :key="s.id" :service="s" compact />
         </div>
@@ -126,7 +127,7 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
     </section>
 
     <section class="shell section">
-      <h2 class="h2 text-3xl">Read next</h2>
+      <h2 class="h2 text-3xl">{{ t('Read next') }}</h2>
       <div class="mt-10 grid gap-6 md:grid-cols-2">
         <RouterLink
           v-for="c in others"
@@ -134,12 +135,12 @@ const others = computed(() => caseStudies.filter((c) => c.slug !== route.params.
           :to="`/case-studies/${c.slug}`"
           class="card card-hover flex flex-col p-7"
         >
-          <p class="eyebrow">{{ c.client }} · {{ c.industry }}</p>
+          <p class="eyebrow">{{ t(c.client) }} · {{ t(c.industry) }}</p>
           <h3 class="mt-3 font-display text-lg leading-snug font-semibold text-slate-900 dark:text-white">
-            {{ c.title }}
+            {{ t(c.title) }}
           </h3>
-          <p class="mt-3 flex-1 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ c.summary }}</p>
-          <p class="mt-5 font-display text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ c.headline }}</p>
+          <p class="mt-3 flex-1 text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">{{ t(c.summary) }}</p>
+          <p class="mt-5 font-display text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ t(c.headline) }}</p>
         </RouterLink>
       </div>
     </section>

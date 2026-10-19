@@ -1,4 +1,6 @@
 import { computed, reactive } from 'vue'
+import { currentLang, languages } from './languages'
+import { intlLocale } from '../i18n'
 
 export const blogCategories = ['Engineering', 'AI & Automation', 'Performance', 'E-commerce', 'Product']
 
@@ -153,13 +155,25 @@ const seedPosts = [
   },
 ]
 
-export const posts = reactive(structuredClone(seedPosts))
+// The shipped posts are written in English.
+const seedWithLanguages = () => structuredClone(seedPosts).map((post) => ({ ...post, languages: ['en'] }))
 
-export const postSeed = () => structuredClone(seedPosts)
+export const posts = reactive(seedWithLanguages())
+
+export const postSeed = seedWithLanguages
+
+/** Posts saved before languages existed have no list and show in every language. */
+export const postLanguages = (post) =>
+  Array.isArray(post.languages) && post.languages.length ? post.languages : languages.map((l) => l.code)
 
 export const sortedPosts = computed(() => [...posts].sort((a, b) => b.date.localeCompare(a.date)))
+
+/** What the current language's blog, home page and sitemap show. */
+export const localizedPosts = computed(() =>
+  sortedPosts.value.filter((p) => postLanguages(p).includes(currentLang.value)),
+)
 
 export const getPostBySlug = (slug) => posts.find((p) => p.slug === slug)
 
 export const formatDate = (iso) =>
-  new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  new Date(iso).toLocaleDateString(intlLocale(), { month: 'short', day: 'numeric', year: 'numeric' })

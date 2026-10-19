@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import PageHero from '../components/PageHero.vue'
 import { useUi } from '../composables/useUi'
+import { intlLocale, t } from '../i18n'
 
 const { openLead } = useUi()
 
@@ -77,7 +78,7 @@ const weeks = computed(() => {
   return Math.max(2, adjusted)
 })
 
-const money = (n) => `$${n.toLocaleString('en-US')}`
+const money = (n) => `$${n.toLocaleString(intlLocale())}`
 
 function toggleAddOn(id) {
   selectedAddOns.value = selectedAddOns.value.includes(id)
@@ -88,7 +89,7 @@ function toggleAddOn(id) {
 function sendEstimate() {
   openLead({
     title: 'Email me this estimate',
-    subtitle: `${activeType.value.label} · ${money(low.value)} – ${money(high.value)} · about ${weeks.value} weeks`,
+    subtitle: `${t(activeType.value.label)} · ${money(low.value)} – ${money(high.value)} · ${t('about {n} weeks', { n: weeks.value })}`,
     submitLabel: 'Send My Estimate',
   })
 }
@@ -96,9 +97,9 @@ function sendEstimate() {
 
 <template>
   <PageHero
-    eyebrow="Free tool"
-    title="Project cost estimator"
-    lead="Six inputs, an instant ballpark. The numbers come from medians across 38 delivered projects — no email required to see them."
+    :eyebrow="t('Free tool')"
+    :title="t('Project cost estimator')"
+    :lead="t('Six inputs, an instant ballpark. The numbers come from medians across 38 delivered projects — no email required to see them.')"
     :crumbs="[{ label: 'Tools' }, { label: 'Project estimator' }]"
   />
 
@@ -107,7 +108,7 @@ function sendEstimate() {
     <div class="space-y-8">
       <fieldset>
         <legend class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">
-          1 · What are you building?
+          {{ t('1 · What are you building?') }}
         </legend>
         <div class="mt-4 grid gap-3 sm:grid-cols-2">
           <label
@@ -117,14 +118,14 @@ function sendEstimate() {
             :class="type === option.id && 'border-indigo-300 bg-indigo-50/60 dark:border-indigo-800 dark:bg-slate-900'"
           >
             <input v-model="type" type="radio" :value="option.id" class="h-4 w-4" name="project-type" />
-            <span class="text-[13.5px] font-medium text-slate-800 dark:text-slate-200">{{ option.label }}</span>
+            <span class="text-[13.5px] font-medium text-slate-800 dark:text-slate-200">{{ t(option.label) }}</span>
           </label>
         </div>
       </fieldset>
 
       <fieldset>
         <legend class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">
-          2 · How big is the scope?
+          {{ t('2 · How big is the scope?') }}
         </legend>
         <div class="mt-4 grid gap-3 sm:grid-cols-2">
           <label
@@ -134,14 +135,14 @@ function sendEstimate() {
             :class="size === option.id && 'border-indigo-300 bg-indigo-50/60 dark:border-indigo-800 dark:bg-slate-900'"
           >
             <input v-model="size" type="radio" :value="option.id" class="h-4 w-4" name="project-size" />
-            <span class="text-[13.5px] font-medium text-slate-800 dark:text-slate-200">{{ option.label }}</span>
+            <span class="text-[13.5px] font-medium text-slate-800 dark:text-slate-200">{{ t(option.label) }}</span>
           </label>
         </div>
       </fieldset>
 
       <fieldset>
         <legend class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">
-          3 · What needs to be included?
+          {{ t('3 · What needs to be included?') }}
         </legend>
         <div class="mt-4 grid gap-3 sm:grid-cols-2">
           <label
@@ -159,7 +160,7 @@ function sendEstimate() {
               :checked="selectedAddOns.includes(option.id)"
               @change="toggleAddOn(option.id)"
             />
-            <span class="text-[13.5px] font-medium text-slate-800 dark:text-slate-200">{{ option.label }}</span>
+            <span class="text-[13.5px] font-medium text-slate-800 dark:text-slate-200">{{ t(option.label) }}</span>
           </label>
         </div>
       </fieldset>
@@ -167,18 +168,18 @@ function sendEstimate() {
       <div class="grid gap-6 sm:grid-cols-2">
         <div>
           <label class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase" for="urgency"
-            >4 · Timeline pressure</label
+            >{{ t('4 · Timeline pressure') }}</label
           >
           <select id="urgency" v-model="urgency" class="field mt-4">
-            <option v-for="option in urgencies" :key="option.id" :value="option.id">{{ option.label }}</option>
+            <option v-for="option in urgencies" :key="option.id" :value="option.id">{{ t(option.label) }}</option>
           </select>
         </div>
         <div>
           <label class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase" for="retainer"
-            >5 · Support after launch</label
+            >{{ t('5 · Support after launch') }}</label
           >
           <select id="retainer" v-model="retainer" class="field mt-4">
-            <option v-for="option in support" :key="option.id" :value="option.id">{{ option.label }}</option>
+            <option v-for="option in support" :key="option.id" :value="option.id">{{ t(option.label) }}</option>
           </select>
         </div>
       </div>
@@ -188,47 +189,46 @@ function sendEstimate() {
     <aside class="lg:sticky lg:top-24">
       <div class="card overflow-hidden">
         <div class="bg-slate-900 p-7">
-          <p class="text-[11px] font-semibold tracking-[0.16em] text-indigo-300 uppercase">Estimated range</p>
+          <p class="text-[11px] font-semibold tracking-[0.16em] text-indigo-300 uppercase">{{ t('Estimated range') }}</p>
           <p class="mt-4 font-display text-3xl font-bold text-white">
             {{ money(low) }} – {{ money(high) }}
           </p>
           <p class="mt-2 text-[13px] text-slate-400">
-            about {{ weeks }} weeks · {{ activeType.label.toLowerCase() }}
+            {{ t('about {n} weeks', { n: weeks }) }} · {{ t(activeType.label).toLowerCase() }}
           </p>
         </div>
 
         <div class="space-y-3 p-7">
           <div class="flex items-baseline justify-between text-[13px]">
-            <span class="text-slate-500 dark:text-slate-400">Base build</span>
+            <span class="text-slate-500 dark:text-slate-400">{{ t('Base build') }}</span>
             <span class="font-semibold text-slate-800 dark:text-slate-200">{{
               money(Math.round(activeType.base * activeSize.factor))
             }}</span>
           </div>
           <div class="flex items-baseline justify-between text-[13px]">
             <span class="text-slate-500 dark:text-slate-400"
-              >Add-ons ({{ selectedAddOns.length }})</span
+              >{{ t('Add-ons ({n})', { n: selectedAddOns.length }) }}</span
             >
             <span class="font-semibold text-slate-800 dark:text-slate-200">{{ money(addOnTotal) }}</span>
           </div>
           <div class="flex items-baseline justify-between text-[13px]">
-            <span class="text-slate-500 dark:text-slate-400">Schedule factor</span>
-            <span class="font-semibold text-slate-800 dark:text-slate-200">×{{ activeUrgency.factor }}</span>
+            <span class="text-slate-500 dark:text-slate-400">{{ t('Schedule factor') }}</span>
+            <span class="font-semibold text-slate-800 dark:text-slate-200">×{{ t(activeUrgency.factor) }}</span>
           </div>
           <div
             v-if="activeSupport.cost"
             class="flex items-baseline justify-between border-t border-slate-200/80 pt-3 text-[13px] dark:border-slate-800"
           >
-            <span class="text-slate-500 dark:text-slate-400">Retainer</span>
-            <span class="font-semibold text-slate-800 dark:text-slate-200">{{ money(activeSupport.cost) }}/mo</span>
+            <span class="text-slate-500 dark:text-slate-400">{{ t('Retainer') }}</span>
+            <span class="font-semibold text-slate-800 dark:text-slate-200">{{ money(activeSupport.cost) }}{{ t('/mo') }}</span>
           </div>
 
           <p class="pt-2 text-[12px] leading-relaxed text-slate-400">
-            Indicative only. A fixed-price quote follows a 30-minute discovery call, and the number we agree
-            there is the number you pay.
+            {{ t('Indicative only. A fixed-price quote follows a 30-minute discovery call, and the number we agree there is the number you pay.') }}
           </p>
 
-          <button type="button" class="btn-primary mt-2 w-full" @click="sendEstimate">Email Me This Estimate</button>
-          <RouterLink to="/contact" class="btn-outline w-full">Book a discovery call</RouterLink>
+          <button type="button" class="btn-primary mt-2 w-full" @click="sendEstimate">{{ t('Email Me This Estimate') }}</button>
+          <RouterLink to="/contact" class="btn-outline w-full">{{ t('Book a discovery call') }}</RouterLink>
         </div>
       </div>
     </aside>

@@ -1,5 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted } from 'vue'
+import { t } from '../i18n'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -37,7 +38,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
           <button
             type="button"
             class="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-900"
-            aria-label="Close"
+            :aria-label="t('Close')"
             @click="emit('close')"
           >
             <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

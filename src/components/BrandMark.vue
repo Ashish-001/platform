@@ -1,4 +1,5 @@
 <script setup>
+import { t } from '../i18n'
 defineProps({
   tagline: { type: Boolean, default: false },
 })
@@ -13,12 +14,12 @@ defineProps({
     >
     <span class="leading-none">
       <span class="block font-display text-lg font-bold tracking-tight text-slate-900 dark:text-white"
-        >Service</span
+        >{{ t('Service') }}</span
       >
       <span
         v-if="tagline"
         class="mt-0.5 block text-[10px] font-medium tracking-[0.16em] text-slate-400 uppercase"
-        >Engineering studio</span
+        >{{ t('Engineering studio') }}</span
       >
     </span>
   </span>

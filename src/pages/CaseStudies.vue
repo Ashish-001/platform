@@ -5,6 +5,7 @@ import PageHero from '../components/PageHero.vue'
 import Reveal from '../components/Reveal.vue'
 import { caseStudies } from '../data/caseStudies'
 import { useUi } from '../composables/useUi'
+import { t } from '../i18n'
 
 const { openLead } = useUi()
 
@@ -18,16 +19,16 @@ const filtered = computed(() =>
 
 <template>
   <PageHero
-    eyebrow="Case studies"
-    title="What changed after we shipped"
-    lead="Five projects written up in full: the problem, the decisions we made, and the numbers measured afterwards."
+    :eyebrow="t('Case studies')"
+    :title="t('What changed after we shipped')"
+    :lead="t('Five projects written up in full: the problem, the decisions we made, and the numbers measured afterwards.')"
     :crumbs="[{ label: 'Case studies' }]"
   >
     <template #actions>
       <button type="button" class="btn-primary" @click="openLead({ title: 'Start a project' })">
-        Start a Project
+        {{ t('Start a Project') }}
       </button>
-      <RouterLink to="/testimonials" class="btn-outline">Client testimonials</RouterLink>
+      <RouterLink to="/testimonials" class="btn-outline">{{ t('Client testimonials') }}</RouterLink>
     </template>
   </PageHero>
 
@@ -45,7 +46,7 @@ const filtered = computed(() =>
         "
         @click="active = sector"
       >
-        {{ sector }}
+        {{ t(sector) }}
       </button>
     </div>
 
@@ -57,24 +58,24 @@ const filtered = computed(() =>
         >
           <div>
             <div class="flex items-center gap-3">
-              <span class="text-xl" aria-hidden="true">{{ c.emoji }}</span>
-              <p class="eyebrow">{{ c.client }} · {{ c.industry }}</p>
+              <span class="text-xl" aria-hidden="true">{{ t(c.emoji) }}</span>
+              <p class="eyebrow">{{ t(c.client) }} · {{ t(c.industry) }}</p>
             </div>
             <h2 class="mt-3 font-display text-2xl leading-snug font-bold text-slate-900 dark:text-white">
-              {{ c.title }}
+              {{ t(c.title) }}
             </h2>
             <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-slate-500 dark:text-slate-400">
-              {{ c.summary }}
+              {{ t(c.summary) }}
             </p>
             <div class="mt-5 flex flex-wrap gap-1.5">
               <span
                 v-for="tech in c.stack"
                 :key="tech"
                 class="rounded-md bg-slate-100 px-2 py-0.5 text-[11.5px] font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300"
-                >{{ tech }}</span
+                >{{ t(tech) }}</span
               >
             </div>
-            <span class="link-arrow mt-6">Read the full case study <span aria-hidden="true">→</span></span>
+            <span class="link-arrow mt-6">{{ t('Read the full case study') }} <span aria-hidden="true">→</span></span>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
@@ -83,8 +84,8 @@ const filtered = computed(() =>
               :key="result.label"
               class="rounded-xl border border-slate-200/80 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950"
             >
-              <p class="font-display text-lg font-bold text-indigo-600 dark:text-indigo-400">{{ result.value }}</p>
-              <p class="mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">{{ result.label }}</p>
+              <p class="font-display text-lg font-bold text-indigo-600 dark:text-indigo-400">{{ t(result.value) }}</p>
+              <p class="mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">{{ t(result.label) }}</p>
             </div>
           </div>
         </RouterLink>

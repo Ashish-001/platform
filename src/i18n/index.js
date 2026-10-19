@@ -63,4 +63,4 @@ export const tList = (list) => (Array.isArray(list) ? list.map((item) => t(item)
 
 export const intlLocale = () => intlLocales[activeLang()] ?? activeLang()
 
-if (import.meta.env.DEV) window.__missingTranslations = missing
+if (import.meta.env.DEV) globalThis.__missingTranslations = missing

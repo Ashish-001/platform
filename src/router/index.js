@@ -129,7 +129,9 @@ function preferredLanguage() {
       if (isLanguage(code)) return code
       if (isLanguage(code.split('-')[0])) return code.split('-')[0]
     }
-  } catch {}
+  } catch {
+    // navigator.languages can be missing in unusual browsers; use the default below.
+  }
   return languages[0]?.code ?? 'en'
 }
 
